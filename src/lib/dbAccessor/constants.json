@@ -1,0 +1,52 @@
+{
+    "TABLES": {
+      "USER": "users",
+      "S3Bucket": "s3buckets",
+      "FilePaths": "filepaths",
+      "PermanentStations": "permanentstations",
+      "TmcCodeData": "tmccode_data"
+    },
+    "COLUMNS": { 
+        "USER": {
+            "ID": "id",
+            "AUTH0_ID": "auth0_id",
+            "USERNAME": "username",
+            "EMAIL": "email",
+            "AUTH0_APP_METADATA": "auth0_app_metadata"
+        },
+        "S3Bucket":{
+            "ID": "id",
+            "BUCKET_NAME": "bucket_name",
+            "EXPANDED_NAME": "expanded_name",
+            "AWS_REGION": "aws_region",
+            "DESCRIPTION": "description",
+            "LATEST_UPDATED": "latest_udpated"
+        },
+        "FilePaths":{
+            "ID":"id",
+            "BUCKET_NAME":"bucket_name",
+            "FILE_PATH":"file_path",
+            "INTERSECTION":"intersection",
+            "FILE_DATE":"file_date",
+            "CREATED_DATE":"created_on"
+        },
+        "PermanentStations":{
+            "ID":"id",
+            "COUNTY":"county",
+            "COUNTY_NAME":"county_name",
+            "SITE":"site",
+            "DIRECTION":"direction",
+            "FILENAME":"file_name",
+            "FILE_PATH":"file_path",
+            "FILE_DATE":"file_date",
+            "CREATED_DATE":"created_on"
+        },
+        "TmcCodeData":{
+            "ID":"id",
+            "TMC_CODE":"tmc_code",
+            "MEASUREMENT_TIMESTAMP":"measurement_tstamp",
+            "TRAVEL_TIME":"travel_time_seconds",
+            "CREATED_DATE":"created_on"
+        }
+    }
+}
