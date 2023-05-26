@@ -9,7 +9,7 @@ const { asyncLocalGet } = require("../middleware/asyncLocalStorage");
 const BaseError = require("../lib/error/BaseError");
 const ErrorCodes = require("../lib/error/errorCodes.json");
 
-class QuestionsDbAccessor extends BaseDbAccessor {
+class nanoparticlesDbAccessor extends BaseDbAccessor {
   constructor() {
     // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.updateS3bucketsSchema);
     super(dbConstants.TABLES.NANOPARTICLES);
@@ -19,7 +19,7 @@ class QuestionsDbAccessor extends BaseDbAccessor {
   async selectAllQuestions(options){  
 
     let query = `SELECT * from nanoparticles ORDER BY id ASC LIMIT 2`;
-    console.log(dbConstants.TABLES.NANOPARTICLES)
+    console.log(dbConstants.TABLES.NANOPARTICLES);
     console.log(query);
 
     // curently no database so just dummy values
@@ -62,4 +62,4 @@ class QuestionsDbAccessor extends BaseDbAccessor {
   }
 }
 
-module.exports = QuestionsDbAccessor;
+module.exports = nanoparticlesDbAccessor;

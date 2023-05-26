@@ -11,70 +11,59 @@ const userSchema = Joi.object({
 
 const updateUserSchema = userSchema.fork(["auth0_id", "username", "auth0_app_metedata"], (schema) => schema.optional());
 
-const s3bucketsSchema = Joi.object({
+const nanoparticlesSchema = Joi.object({
     id: Joi.number().required(),
-    bucket_name: Joi.string(),
-    expanded_name: Joi.string(),
-    aws_region: Joi.string(),
-    description: Joi.string(),
-    latest_updated: Joi.object()
+    nano_tumor_id: Joi.string(),
+    particle_type: Joi.string(),
+    core_material: Joi.string(),
+    targeting_stratergy: Joi.string(),
+    nanomedicine_id: Joi.string(),
+    shape: Joi.string(),
+    pdi: Joi.number(),
+    size_tem: Joi.number(),
+    size_hd: Joi.number(),
+    zeta_potential: Joi.number(),
+    tumor_cell: Joi.string(),
+    tumor_size: Joi.object(),
+    np_administration: Joi.string(),
+    bw_np_administration: Joi.object(),
+    animal: Joi.string(),
+    reference: Joi.string(),
 });
 
-const updateS3bucketsSchema = s3bucketsSchema.fork(["bucket_name", "expanded_name", "aws_region", "description", "latest_updated"], (schema) => schema.optional());
+const updateNanoparticlesSchema = nanoparticlesSchema.fork(["nano_tumor_id", "particle_type", "core_material", "targeting_stratergy", "nanomedicine_id", 
+"shape", "pdi", "size_tem", "size_hd", "zeta_potential", "tumor_cell", "tumor_size", "np_administration", "bw_np_administration", "animal", "reference" ], (schema) => schema.optional());
 
-const fileKeyPathsSchema = Joi.object({
+const biodistributionTimelinesScehma = Joi.object({
     id: Joi.number().required(),
-    bucket_name: Joi.string(),
-    file_name: Joi.string(),
-    file_path: Joi.string(),
-    intersection: Joi.string(),
-    file_date: Joi.date()
+    nano_tumor_id: Joi.string(),
+    time_point: Joi.number(),
+    tumor: Joi.number(),
+    heart: Joi.number(),
+    liver: Joi.number(),
+    spleen: Joi.number(),
+    lung: Joi.number(),
+    kidney: Joi.number(),
 });
 
-const updatefileKeyPathsSchema = fileKeyPathsSchema.fork(["bucket_name", "file_name", "file_path", "intersection", "file_date"], (schema) => schema.optional());
+const updateBiodistributionTimelinesSchema = biodistributionTimelinesScehma.fork(["nano_tumor_id", "time_point", "tumor", "heart", "liver", "spleen", "lung", "kidney"], (schema) => schema.optional());
 
-const s3bucketFilePathsShema = Joi.object({
+const bloodDataTimlinesSchema = Joi.object({
     id: Joi.number().required(),
-    bucket_name: Joi.string().required(),
-    file_path: Joi.string().required(),
-    intersection: Joi.string(),
-    file_date: Joi.date(),
-    created_on: Joi.date().required(),
+    nano_tumor_id: Joi.string(),
+    time_point: Joi.number(),
+    plasma_id_pc: Joi.number(),
 });
 
-const updateS3bucketFilePathsSchema = s3bucketFilePathsShema.fork(["bucket_name", "file_path", "intersection", "file_date", "created_on"], (schema) => schema.optional());
-
-const permanenetStationsSchema= Joi.object({
-    id: Joi.number().required(),
-    county: Joi.number(),
-    county_name: Joi.string(),
-    site: Joi.string(),
-    direction: Joi.string(),
-    file_name: Joi.string(),
-    file_path: Joi.string(),
-    file_date: Joi.date()
-});
-
-const updatepermanentSchema = permanenetStationsSchema.fork(["county", "county_name", "site", "direction", "file_name", "file_date"], (schema) => schema.optional());
-
-const tmcCodeDataSchema= Joi.object({
-    id: Joi.number().required(),
-    tmc_code: Joi.string(),
-    measurement_tstamp: Joi.date(),
-    travel_time_seconds: Joi.number(),
-});
-
-const updatedtmcCodeDataSchema= tmcCodeDataSchema.fork(["tmc_code", "measurement_tstamp", "travel_time_seconds"], (schema) => schema.optional());
+const updateBloodDataTimlinesSchema = bloodDataTimlinesSchema.fork(["nano_tumor_id", "time_point", "plasma_id_pc"], (schema) => schema.optional());
 
 module.exports = {
     userSchema,
     updateUserSchema,
-    s3bucketsSchema,
-    updateS3bucketsSchema,
-    fileKeyPathsSchema,
-    updatefileKeyPathsSchema,
-    permanenetStationsSchema,
-    updatepermanentSchema,
-    tmcCodeDataSchema,
-    updatedtmcCodeDataSchema
+    nanoparticlesSchema,
+    updateNanoparticlesSchema,
+    biodistributionTimelinesScehma,
+    updateBiodistributionTimelinesSchema,
+    bloodDataTimlinesSchema,
+    updateBloodDataTimlinesSchema
 };

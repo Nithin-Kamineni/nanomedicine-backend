@@ -9,10 +9,10 @@ const { asyncLocalGet } = require("../middleware/asyncLocalStorage");
 const BaseError = require("../lib/error/BaseError");
 const ErrorCodes = require("../lib/error/errorCodes.json");
 
-class QuestionsDbAccessor extends BaseDbAccessor {
+class biodistributionDbAccessor extends BaseDbAccessor {
   constructor() {
     // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.updateS3bucketsSchema);
-    super(dbConstants.TABLES.NANOPARTICLES);
+    super(dbConstants.TABLES.BIODISTRIBUTION_TIMELINES);
     }
 
   //returning all the questions
@@ -62,4 +62,4 @@ class QuestionsDbAccessor extends BaseDbAccessor {
   }
 }
 
-module.exports = QuestionsDbAccessor;
+module.exports = biodistributionDbAccessor;

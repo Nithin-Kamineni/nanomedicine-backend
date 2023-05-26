@@ -1,10 +1,9 @@
 {
     "TABLES": {
-      "USER": "users",
-      "S3Bucket": "s3buckets",
-      "FilePaths": "filepaths",
-      "PermanentStations": "permanentstations",
-      "TmcCodeData": "tmccode_data"
+        "NANOPARTICLES": "nanoparticles",
+        "BIODISTRIBUTION_TIMELINES": "biodistribution_timelines",
+        "BLOOD_DATA_TIMELINES": "blood_data_timelines",
+        "USER": "USERS"
     },
     "COLUMNS": { 
         "USER": {
@@ -14,39 +13,41 @@
             "EMAIL": "email",
             "AUTH0_APP_METADATA": "auth0_app_metadata"
         },
-        "S3Bucket":{
+        "NANOPARTICLES":{
             "ID": "id",
-            "BUCKET_NAME": "bucket_name",
-            "EXPANDED_NAME": "expanded_name",
-            "AWS_REGION": "aws_region",
-            "DESCRIPTION": "description",
-            "LATEST_UPDATED": "latest_udpated"
+            "NANO_TUMOR_ID": "nano_tumor_id",
+            "PARTICLE_TYPE": "particle_type",
+            "CORE_MATERIAL": "core_material",
+            "TARGETING_STRATERGY": "targeting_stratergy",
+            "NANOMEDICINE_ID": "nanomedicine_id",
+            "SHAPE": "shape",
+            "PDI": "pdi",
+            "SIZE_TEM": "size_tem",
+            "SIZE_HD": "size_hd",
+            "ZETA_POTENTIAL": "zeta_potential",
+            "TUMOR_CELL": "tumor_cell",
+            "TUMOR_SIZE": "tumor_size",
+            "NP_ADMINISTRATION": "np_administration",
+            "BW_NP_ADMINISTRATION": "bw_np_administration",
+            "ANIMAL": "animal",
+            "REFERENCE": "reference"
         },
-        "FilePaths":{
+        "BIODISTRIBUTION_TIMELINES":{
             "ID":"id",
-            "BUCKET_NAME":"bucket_name",
-            "FILE_PATH":"file_path",
-            "INTERSECTION":"intersection",
-            "FILE_DATE":"file_date",
-            "CREATED_DATE":"created_on"
+            "NANO_TUMOR_ID": "nano_tumor_id",
+            "TIME_POINT": "time_point",
+            "TUMOR": "tumor",
+            "HEART": "heart",
+            "LIVER": "liver",
+            "SPLEEN": "spleen",
+            "LUNG": "lung",
+            "KIDNEY": "kidney"
         },
-        "PermanentStations":{
+        "BLOOD_DATA_TIMELINES":{
             "ID":"id",
-            "COUNTY":"county",
-            "COUNTY_NAME":"county_name",
-            "SITE":"site",
-            "DIRECTION":"direction",
-            "FILENAME":"file_name",
-            "FILE_PATH":"file_path",
-            "FILE_DATE":"file_date",
-            "CREATED_DATE":"created_on"
-        },
-        "TmcCodeData":{
-            "ID":"id",
-            "TMC_CODE":"tmc_code",
-            "MEASUREMENT_TIMESTAMP":"measurement_tstamp",
-            "TRAVEL_TIME":"travel_time_seconds",
-            "CREATED_DATE":"created_on"
+            "NANO_TUMOR_ID": "nano_tumor_id",
+            "TIME_POINT": "time_point",
+            "PLASMA_ID_PC":"plasma_id_pc"
         }
     }
 }
