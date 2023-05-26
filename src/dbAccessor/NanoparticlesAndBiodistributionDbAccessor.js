@@ -14,6 +14,8 @@ class nanoparticlesAndBiodistributionDbAccessor extends MultiBaseDbAccessor {
     // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.NANOPARTICLES);
     super(dbConstants.TABLES.NANOPARTICLES, dbSchema.nanoparticlesSchema, dbSchema.updateNanoparticlesSchema, dbConstants.TABLES.BIODISTRIBUTION_TIMELINES, dbSchema.biodistributionTimelinesScehma, dbSchema.updateBiodistributionTimelinesSchema, dbConstants.COLUMNS.NANOPARTICLES.NANO_TUMOR_ID);
     }
+
+    //code to filter the nanoparticles
   
 }
 
