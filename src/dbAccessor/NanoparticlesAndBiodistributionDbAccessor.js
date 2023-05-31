@@ -12,7 +12,7 @@ const ErrorCodes = require("../lib/error/errorCodes.json");
 class nanoparticlesAndBiodistributionDbAccessor extends MultiBaseDbAccessor {
   constructor() {
     // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.NANOPARTICLES);
-    super(dbConstants.TABLES.NANOPARTICLES, dbSchema.nanoparticlesSchema, dbSchema.updateNanoparticlesSchema, dbConstants.TABLES.BIODISTRIBUTION_TIMELINES, dbSchema.biodistributionTimelinesScehma, dbSchema.updateBiodistributionTimelinesSchema, dbConstants.COLUMNS.NANOPARTICLES.NANO_TUMOR_ID);
+    super(dbConstants.TABLES.NANOPARTICLES, dbConstants.TABLES.BIODISTRIBUTION_TIMELINES, dbConstants.COLUMNS.NANOPARTICLES.NANO_TUMOR_ID, dbSchema.nanoparticlesAndBiodistributionTimelinesSchema);
     }
 
     //code to filter the nanoparticles
