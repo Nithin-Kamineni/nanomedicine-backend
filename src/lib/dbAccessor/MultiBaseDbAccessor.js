@@ -6,15 +6,12 @@ const pool = require("./PGConnectionPool");
 const dbConstants = require("../dbAccessor/constants.json");
 
 class MultiBaseDbAccessor extends BaseDbAccessor {
-    constructor(tableName1, joiSchema1, joiUpdateSchema1, tableName2, joiSchema2, joiUpdateSchema2, joiningColumn) {
-        super(tableName1+'AND'+tableName2);  
+    constructor(tableName1, tableName2, joiningColumn, joiSchema) {
+        super(tableName1+'AND'+tableName2, joiSchema);  
         this.viewName = tableName1+'AND'+tableName2;
         this.tableName1 = tableName1;
-        this.joiSchema1 = joiSchema1;
-        this.joiUpdateSchema1 = joiUpdateSchema1;
         this.tableName2 = tableName2;
-        this.joiSchema2 = joiSchema2;
-        this.joiUpdateSchema2 = joiUpdateSchema2;
+        this.joiSchema = joiSchema;
         this.JoinTwoTables(joiningColumn); 
       }
 

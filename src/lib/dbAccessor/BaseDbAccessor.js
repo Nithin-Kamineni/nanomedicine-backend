@@ -163,12 +163,15 @@ class BaseDbAccessor {
   async filterAndSelect(filter) {
     console.log(`call received for filter and select : req_id ${asyncLocalGet("request_id")} filter: ${filter}`);
     const start = new Date().getMilliseconds();
+    
     try {
       let whereClause = [];
       let values = [];
-      const filterSchema = this.joiSchema.fork(Object.keys(this.joiSchema.describe().keys), (schema) => schema.optional());
-      await filterSchema.validateAsync(filter);
+      // const filterSchema = this.joiSchema.fork(Object.keys(this.joiSchema.describe().keys), (schema) => schema.optional());
+      // await filterSchema.validateAsync(filter);
+      
       let i = 1;
+      console.log(filter)
       _.forEach(filter, (columnValue, columnName) => {
         if (_.isEmpty(columnName) || _.isEmpty(columnValue)) {
           return;

@@ -44,7 +44,7 @@ module.exports.GetNanoparticlesAndBiodistributionTimelines = async (options) =>{
 // filter sprint 2
 module.exports.GetFilteredNanoparticlesAndBiodistributionTimelines = async (options) =>{
     // options have contents/body of post request
-    let dataRecords = await bloodDataDbAccessor.filterAndSelect(options);
+    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect(options);
     console.log(dataRecords);
     return dataRecords;
 };

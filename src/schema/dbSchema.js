@@ -57,6 +57,38 @@ const bloodDataTimlinesSchema = Joi.object({
 
 const updateBloodDataTimlinesSchema = bloodDataTimlinesSchema.fork(["nano_tumor_id", "time_point", "plasma_id_pc"], (schema) => schema.optional());
 
+const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
+    id: Joi.number().required(),
+    nano_tumor_id: Joi.string(),
+    particle_type: Joi.string(),
+    core_material: Joi.string(),
+    targeting_stratergy: Joi.string(),
+    nanomedicine_id: Joi.string(),
+    shape: Joi.string(),
+    pdi: Joi.number(),
+    size_tem: Joi.number(),
+    size_hd: Joi.number(),
+    zeta_potential: Joi.number(),
+    tumor_cell: Joi.string(),
+    tumor_size: Joi.object(),
+    np_administration: Joi.string(),
+    bw_np_administration: Joi.object(),
+    animal: Joi.string(),
+    reference: Joi.string(),
+    time_point: Joi.number(),
+    tumor: Joi.number(),
+    heart: Joi.number(),
+    liver: Joi.number(),
+    spleen: Joi.number(),
+    lung: Joi.number(),
+    kidney: Joi.number()
+})
+
+const updateNanoparticlesAndBiodistributionTimelinesSchema = nanoparticlesAndBiodistributionTimelinesSchema.fork(
+["nano_tumor_id", "particle_type", "core_material", "targeting_stratergy", "nanomedicine_id", "shape", 
+"pdi", "size_tem", "size_hd", "zeta_potential", "tumor_cell", "tumor_size", "np_administration", "bw_np_administration", 
+"animal", "reference", "time_point", "tumor", "heart", "liver", "spleen", "lung", "kidney" ], (schema) => schema.optional());
+
 module.exports = {
     userSchema,
     updateUserSchema,
@@ -65,5 +97,7 @@ module.exports = {
     biodistributionTimelinesScehma,
     updateBiodistributionTimelinesSchema,
     bloodDataTimlinesSchema,
-    updateBloodDataTimlinesSchema
+    updateBloodDataTimlinesSchema,
+    nanoparticlesAndBiodistributionTimelinesSchema,
+    updateNanoparticlesAndBiodistributionTimelinesSchema
 };
