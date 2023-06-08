@@ -9,6 +9,8 @@ const bloodDataDbAccessor = new BloodDataTimelinesDbAccessor();
 const NanoparticlesAndBBloodDataTimelinesDbAccessor = require("../dbAccessor/NanoparticlesAndBiodistributionDbAccessor");
 const nanoparticlesAndbloodDataDbAccessor = new NanoparticlesAndBBloodDataTimelinesDbAccessor();
 
+const requestBodiesSchema = require('../schema/requestBodySchema')
+
 // sprint 1
 module.exports.GetNanoparticles = async (options) =>{
     // options have parameters of get request
@@ -43,6 +45,11 @@ module.exports.GetNanoparticlesAndBiodistributionTimelines = async (options) =>{
 
 // filter sprint 2
 module.exports.GetFilteredNanoparticlesAndBiodistributionTimelines = async (options) =>{
+    
+    const requestSchema = requestBodiesSchema.filterNanoAndBioSchema.fork(Object.keys(requestBodiesSchema.filterNanoAndBioSchema.describe().keys), (schema) => schema.optional());
+    
+    await requestSchema.validateAsync(options);
+    
     // options have contents/body of post request
     let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect(options);
     console.log(dataRecords);
