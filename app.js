@@ -4,6 +4,8 @@ const app = express();
 const dotenv = require("dotenv");
 const { auth } = require("express-openid-connect");
 const cors = require('cors');
+const { initLocalStore } = require("./src/middleware/asyncLocalStorage");  //storage
+const { checkJwt, getAuth0UserDetails } = require("./src/middleware/auth"); //prior1
 const { logger } = require("./src/middleware/logEvents");
 const { StatusCodes } = require("http-status-codes");
 dotenv.config();
@@ -22,12 +24,15 @@ const corsOptions = {
   };
 
 app.use(logger)
-
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+// app.use(initLocalStore);
+// app.use(checkJwt);
+// app.use(getAuth0UserDetails);
 
 const dashboardRoutes = require('./src/routes/v1/dashboardRoute');
+// const filterParamsForNanoAndBio = require('./src/routes/v1/filterParamsRoute')
 const errorHandler = require("./src/middleware/errorHandler");
 
 

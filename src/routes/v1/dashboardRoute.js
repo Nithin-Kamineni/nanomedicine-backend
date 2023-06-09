@@ -76,6 +76,22 @@ router.get("/nanoparticles&biodistribution", async (req, res) => {
     }
 });
 
+router.get("/nanoparticles&biodistribution/filter-params/", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
 // (filter) nanoparticles + biodistribution_timelines
 router.post("/nanoparticles&biodistribution", async (req, res) => {
     try{
