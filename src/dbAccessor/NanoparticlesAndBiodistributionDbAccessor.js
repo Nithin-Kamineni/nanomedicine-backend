@@ -13,6 +13,61 @@ class nanoparticlesAndBiodistributionDbAccessor extends MultiBaseDbAccessor {
   constructor() {
     // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.NANOPARTICLES);
     super(dbConstants.COLUMNS.NANOPARTICLES.NANO_TUMOR_ID, dbSchema.nanoparticlesAndBiodistributionTimelinesSchema, dbConstants.TABLES.NANOPARTICLES, dbConstants.TABLES.BIODISTRIBUTION_TIMELINES);
+    this.viewName = dbConstants.TABLES.NANOPARTICLES+'AND'+dbConstants.TABLES.BIODISTRIBUTION_TIMELINES;  
+  }
+
+    //code to filter Params
+    async filterParamsForNanoAndBio() {
+      console.log(`call received for filter and select : req_id ${asyncLocalGet("request_id")}`);
+      const start = new Date().getMilliseconds();
+      
+      try {
+        let rows;
+        const output = {};
+        const columnNames = ['particle_type','core_material','targeting_strategy','nanomedicine_id','shape','tumor_cell','np_administration','animal','reference','blood_type']
+
+        for (const columnName of columnNames) { 
+        const query = `select DISTINCT(${columnName}) from nanoparticles`;
+        const res = await pool.query(query);
+        rows = res.rows;
+        const particle_type_values = rows.map(data => data[columnName]);
+        output[columnName] = particle_type_values;
+        }
+
+        const sliderColumnNames = ['pdi','size_tem','size_hd','zeta_potential','time_point','tumor','heart','liver','spleen','lung','kidney']
+        for (const columnName of sliderColumnNames) { 
+          const query = `select min(${columnName}),max(${columnName}) from ${this.viewName}`;
+          const res = await pool.query(query);
+          rows = res.rows;
+          // console.log(rows);
+          if(rows[0]["max"]==Infinity){
+            rows[0]["max"]="Infinity"
+          }
+          output[columnName] = rows[0];
+          }
+        
+          const rangeSliderColumnNames = ['tumor_size','bw_np_administration']
+          for (const columnName of rangeSliderColumnNames) { 
+            const query = `select min(LOWER(${columnName})),max(UPPER(${columnName})) from nanoparticles`;
+            const res = await pool.query(query);
+            rows = res.rows;
+            // console.log(rows[0]);
+            if(rows[0]["max"]==Infinity){
+              rows[0]["max"]="Infinity"
+            }
+            output[columnName] = rows[0];
+            }
+
+        
+        
+        return output;
+      } catch (e) {
+        console.log(`Db call error : req_id ${asyncLocalGet("request_id")} error: ${e}`);
+        if (e.name == "ValidationError") {
+          throw new BaseError(ErrorCodes.DB.JOI_VALIDATION_ERROR, e, `row in table::${this.tableName} failed filter Joi validation.`);
+        }
+        throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Possible error while executing select query with filter");
+      }
     }
 
     //code to filter the nanoparticles

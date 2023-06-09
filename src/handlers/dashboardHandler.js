@@ -56,6 +56,16 @@ module.exports.GetFilteredNanoparticlesAndBiodistributionTimelines = async (opti
     return dataRecords;
 };
 
+// filter parameters
+module.exports.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines = async (options) =>{
+    
+    // options have contents/body of post request
+    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterParamsForNanoAndBio(options);
+    // console.log(dataRecords);
+    return dataRecords;
+};
+
+
 // sprint 2
 module.exports.GetNanoparticlesBiodistributionTimelinesAndBloodDataTimelines = async (options) =>{
     // options have contents/body of post request

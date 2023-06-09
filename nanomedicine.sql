@@ -37,3 +37,13 @@ CREATE TABLE nanoparticles (
   reference VARCHAR,
   blood_type VARCHAR
 );
+
+CREATE TABLE users (
+  id SERIAL NOT NULL PRIMARY KEY,
+  auth0_id varchar UNIQUE,
+  username varchar(64),
+  email varchar(254),
+  auth0_app_metadata jsonb,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT (now()) NOT NULL,
+  modified_at TIMESTAMP WITH TIME ZONE DEFAULT (now()) NOT NULL
+);
