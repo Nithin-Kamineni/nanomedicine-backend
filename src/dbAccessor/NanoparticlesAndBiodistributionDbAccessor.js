@@ -83,6 +83,7 @@ class nanoparticlesAndBiodistributionDbAccessor extends MultiBaseDbAccessor {
         
         let i = 1;
         _.forEach(filter, (columnValue, columnName) => {
+          
           if (_.isEmpty(columnName) || _.isEmpty(columnValue)) {
             return;
           }

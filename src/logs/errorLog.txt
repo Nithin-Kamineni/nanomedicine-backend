@@ -1,2 +1,35 @@
 20230525	13:28:25	d74c4589-a95b-4648-b2e7-0619e7b3f7e7	ReferenceError: StatusCodes is not defined
 20230526	10:32:57	b3590c84-d9cd-4023-bcd8-85d4bcaf6904	SyntaxError: Unexpected token z in JSON at position 3
+20230616	02:27:40	5f5586e0-9b45-47ea-bc0c-4eeaa7ab1fb1	TypeError: The "url" argument must be of type string. Received undefined
+20230616	02:28:13	566fe8d8-c19f-4040-b1c1-3a6506452a09	UnauthorizedError: No authorization token was found
+20230616	02:28:22	20097b31-d3ea-457a-90c9-3ddf2a3a4d11	UnauthorizedError: No authorization token was found
+20230616	02:28:38	93b14c52-ffdd-4270-a1ff-5e859478d262	TypeError: The "url" argument must be of type string. Received undefined
+20230616	02:37:03	0cc09fbb-02b6-42df-8841-0c9c3bdd6bff	TypeError: The "url" argument must be of type string. Received undefined
+20230616	02:46:14	ddb17d7d-4d0a-4124-9c04-91b306188d3f	UnauthorizedError: No authorization token was found
+20230616	02:46:24	4779a72a-2628-4863-96fb-a383c0089116	TypeError: The "url" argument must be of type string. Received undefined
+20230616	02:48:12	e53f6fdc-0213-4204-8bdb-e632ae982acc	UnauthorizedError: jwt audience invalid. expected: dashboard-backend-data
+20230616	02:53:23	e410b6f3-3e4d-4ac0-89ee-f3c797842945	UnauthorizedError: jwt audience invalid. expected: dashboard-backend-data
+20230616	02:53:42	38ce6565-dc47-42c4-a179-39d873887f6d	UnauthorizedError: jwt audience invalid. expected: dashboard-backend-data
+20230616	02:56:18	c253e169-e3c3-47bc-8b09-a0d142e775db	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/
+20230616	02:56:39	f4b85690-c3ce-4fda-b66f-c36dde5bd992	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/
+20230616	03:03:20	66ddc350-1576-4fd6-b91f-8ef2b58a9dac	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/
+20230616	03:03:48	55d5abed-8e28-46d4-bdfd-84c38026603a	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/45
+20230616	03:18:50	951bd4ff-9859-4c7b-87af-77b9534c6d8e	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/
+20230616	03:22:27	089838e7-c191-4483-9719-e315c90997a8	UnauthorizedError: No authorization token was found
+20230616	03:22:34	ffbc0440-a989-44e1-8051-b01f352883ed	UnauthorizedError: jwt malformed
+20230616	03:22:41	9edf0b97-5075-4f8d-ab85-97e07873fa02	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/
+20230616	03:23:04	23c11078-0f06-403e-ba44-cd7eeb4d379c	UnauthorizedError: secret or public key must be provided
+20230616	03:23:10	27b2876c-bb37-4f9e-ae13-e4f97e26522e	UnauthorizedError: secret or public key must be provided
+20230616	03:23:33	8fb5a45b-b5db-4533-893a-faf1a79ff923	UnauthorizedError: jwt audience invalid. expected: https://nanomedicine.us.auth0.com/api/v2/
+20230616	03:44:31	3d329a87-7a58-4b7e-a47d-4730e22e2056	UnauthorizedError: invalid token
+20230616	03:44:50	0eab7874-5abb-4f37-80f5-8551aefef18f	UnauthorizedError: secret or public key must be provided
+20230616	04:35:11	a05c3123-a68c-4f9e-8e76-caf5a1b04145	UnauthorizedError: No authorization token was found
+20230616	12:10:05	810fb2e6-079b-480e-b4c3-ab2ca6034e3a	UnauthorizedError: jwt expired
+20230616	13:07:31	eb91a407-6eec-4e59-add9-8faa0d029456	UnauthorizedError: jwt expired
+20230617	02:24:51	c8859cfc-1e70-4790-ac84-b67e618080fc	UnauthorizedError: jwt expired
+20230623	03:04:31	8605891d-0420-4145-8de8-1d77c0aa738f	UnauthorizedError: jwt expired
+20230623	03:17:56	dde32a59-048d-4bbf-8224-536cba298dca	SyntaxError: Unexpected token } in JSON at position 334
+20230623	03:21:31	232acef6-cd64-4daf-95fb-d39ca0f61a05	SyntaxError: Unexpected token } in JSON at position 427
+20230623	03:21:45	589a7ec4-f7f4-4218-a4c9-402c1900a9c3	SyntaxError: Unexpected token } in JSON at position 391
+20230625	21:59:06	51f5cd86-486c-43d2-bf69-f9e311e86b28	SyntaxError: Unexpected token } in JSON at position 548
+20230625	22:08:23	689903e0-d9e8-4fea-b23c-fc5164f4bf7d	PayloadTooLargeError: request entity too large

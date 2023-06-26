@@ -7,7 +7,7 @@ const filterNanoAndBioSchema = Joi.object({
     nano_tumor_id: Joi.array().items(Joi.string()),
     particle_type: Joi.array().items(Joi.string()),
     core_material: Joi.array().items(Joi.string()),
-    targeting_stratergy: Joi.array().items(Joi.string()),
+    targeting_strategy: Joi.array().items(Joi.string()),
     nanomedicine_id: Joi.array().items(Joi.string()),
     shape: Joi.array().items(Joi.string()),
     pdi: Joi.array().length(2).items(Joi.number()),
@@ -26,12 +26,13 @@ const filterNanoAndBioSchema = Joi.object({
     liver: Joi.array().length(2).items(Joi.number()),
     spleen: Joi.array().length(2).items(Joi.number()),
     lung: Joi.array().length(2).items(Joi.number()),
-    kidney: Joi.array().length(2).items(Joi.number())
+    kidney: Joi.array().length(2).items(Joi.number()),
+    blood_type: Joi.array().items(Joi.string())
 });
 
-const updateFilterNanoAndBioSchema = filterNanoAndBioSchema.fork(["nano_tumor_id", "particle_type", "core_material", "targeting_stratergy", "nanomedicine_id", 
+const updateFilterNanoAndBioSchema = filterNanoAndBioSchema.fork(["nano_tumor_id", "particle_type", "core_material", "targeting_strategy", "nanomedicine_id", 
 "shape", "pdi", "size_tem", "size_hd", "zeta_potential", "tumor_cell", "tumor_size", "np_administration", "bw_np_administration", "animal", "reference", "time_point", 
-"tumor", "heart", "liver", "spleen", "lung", "kidney" ], (schema) => schema.optional());
+"tumor", "heart", "liver", "spleen", "lung", "kidney", "blood_type"], (schema) => schema.optional());
 
 module.exports = {
     filterNanoAndBioSchema,

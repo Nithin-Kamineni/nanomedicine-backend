@@ -10,6 +10,15 @@ const { logger } = require("./src/middleware/logEvents");
 const { StatusCodes } = require("http-status-codes");
 dotenv.config();
 
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.AUTH0_CLIENT_SECRET,
+  baseURL: process.env.BASE_URL,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+};
+
 //CORS allowed url's
 const whiteList = [process.env.UI_URL,process.env.MOBILE_APP_URL]
 const corsOptions = {
@@ -27,7 +36,7 @@ app.use(logger)
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
-// app.use(initLocalStore);
+app.use(initLocalStore);
 // app.use(checkJwt);
 // app.use(getAuth0UserDetails);
 

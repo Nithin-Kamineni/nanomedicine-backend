@@ -5,11 +5,12 @@ const userSchema = Joi.object({
     id: Joi.number().integer(),
     auth0_id: Joi.string().required(),
     username: Joi.string(),
+    picture: Joi.string(),
     email: Joi.string().email(),
     auth0_app_metedata: Joi.object({ }).unknown(true),
 });
 
-const updateUserSchema = userSchema.fork(["auth0_id", "username", "auth0_app_metedata"], (schema) => schema.optional());
+const updateUserSchema = userSchema.fork(["auth0_id", "username", "auth0_app_metedata","picture"], (schema) => schema.optional());
 
 const nanoparticlesSchema = Joi.object({
     id: Joi.number().required(),
@@ -62,7 +63,7 @@ const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
     nano_tumor_id: Joi.string(),
     particle_type: Joi.string(),
     core_material: Joi.string(),
-    targeting_stratergy: Joi.string(),
+    targeting_strategy: Joi.string(),
     nanomedicine_id: Joi.string(),
     shape: Joi.string(),
     pdi: Joi.number(),
@@ -85,7 +86,7 @@ const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
 })
 
 const updateNanoparticlesAndBiodistributionTimelinesSchema = nanoparticlesAndBiodistributionTimelinesSchema.fork(
-["nano_tumor_id", "particle_type", "core_material", "targeting_stratergy", "nanomedicine_id", "shape", 
+["nano_tumor_id", "particle_type", "core_material", "targeting_strategy", "nanomedicine_id", "shape", 
 "pdi", "size_tem", "size_hd", "zeta_potential", "tumor_cell", "tumor_size", "np_administration", "bw_np_administration", 
 "animal", "reference", "time_point", "tumor", "heart", "liver", "spleen", "lung", "kidney" ], (schema) => schema.optional());
 

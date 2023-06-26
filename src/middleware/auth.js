@@ -15,8 +15,13 @@ const auth0MgmtClient = new ManagementClient({
   domain: process.env.AUTH0_DOMAIN,
   clientId: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
-  scope: "read:users",
+  scope: "read:users"
 });
+// var auth0MgmtClient = new ManagementClient({
+//   domain: process.env.AUTH0_DOMAIN,
+//   token: 'https://nanomedicine.us.auth0.com/api/v2/'
+// });
+
 const userDbAccessor = new UserDbAccessor();
 
 const checkJwt = jwt.expressjwt({
@@ -25,12 +30,12 @@ const checkJwt = jwt.expressjwt({
       cache: true,
       rateLimit: true,
       jwksRequestsPerMinute: 5,
-      // jwksUri: process.env.AUTH0_JWKS_URI,
+      jwksUri: process.env.AUTH0_JWKS_URI,
     }),
   
     // Validate the audience and the issuer.
     audience: process.env.AUTH0_AUDIENCE,
-    issuer: process.env.AUTH0_ISSUER_BASE_URL,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
     algorithms: ["RS256"],
 });
 
@@ -67,28 +72,34 @@ function getAllPermissions(req, resp)  {
 
 const getAuth0UserDetails = async (req, resp, next) => {
   const authSub = _.get(req, "auth.sub", "|");
-  // if (!authSub.startsWith("auth0|")) {
-  //   const err = new BaseError(ErrorCode.API.AUTH0_TOKEN_NOT_FOUND, null, "'sub' clain in token should start with 'auth0'");
-  //   resp.sendStatus(StatusCodes.UNAUTHORIZED).send(err.getErrorResponseObject());
-  //   return;
-  // }
+  // console.log(authSub, username, picture, email);
+  // console.log(auth0_app_metedata);
   try {
     const user = _.get(await userDbAccessor.filterUsers({ auth0_id: authSub }), "0");
-    let userId = _.get(user, "id");
     let authId = _.get(user,"auth0_id");
-    const auth0User = await auth0MgmtClient.getUser({ id: authSub });
+    let userId = _.get(user, "id");
+    // const auth0User = await auth0MgmtClient.getUser({ id: authSub });
+    
+    //Not in database so insert the value
     if (_.isEmpty(authId)) {
       console.log(`calling auth0 : req_id ${asyncLocalGet("request_id")}`);
-      const auth0User = await auth0MgmtClient.getUser({ id: authSub });
+      // console.log("===============================================================================================================================")
+      const username = _.get(req, "auth.name", "|");
+      const picture = _.get(req, "auth.picture", "|");
+      const email = _.get(req, "auth.email", "|");
+      const auth0_app_metedata = _.get(req, "auth");
+      console.log(auth0_app_metedata);
       const user = {
         auth0_id: authSub,
-        auth0_app_metedata: auth0User,
-        username: _.get(auth0User, "nickname"),
-        email: _.get(auth0User, "email"),
+        username: username,
+        email: email,
+        auth0_app_metadata: JSON.stringify(auth0_app_metedata),
+        picture: picture,
       };
-      asyncLocalPut("auth0_user", { userId: userId });
+      // asyncLocalPut("auth0_user", { userId: userId });
       const userInDb = await userDbAccessor.insert(user);
       userId = _.get(userInDb, "id");
+      asyncLocalPut("auth0_user", { userId: userId });
       asyncLocalPut("user", { id: userId });
     } else {
       asyncLocalPut("auth0_user", { user_id: userId });

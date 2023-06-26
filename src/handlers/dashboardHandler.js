@@ -45,10 +45,13 @@ module.exports.GetNanoparticlesAndBiodistributionTimelines = async (options) =>{
 
 // filter sprint 2
 module.exports.GetFilteredNanoparticlesAndBiodistributionTimelines = async (options) =>{
-    
+    console.log("------------------------------------------------------")
     const requestSchema = requestBodiesSchema.filterNanoAndBioSchema.fork(Object.keys(requestBodiesSchema.filterNanoAndBioSchema.describe().keys), (schema) => schema.optional());
-    
+    console.log("------------------------------------------------------")
+    console.log(options)
     await requestSchema.validateAsync(options);
+    
+    console.log("------------------------------------------------------")
     
     // options have contents/body of post request
     let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect(options);
