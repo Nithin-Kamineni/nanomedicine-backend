@@ -83,20 +83,20 @@ const getAuth0UserDetails = async (req, resp, next) => {
     //Not in database so insert the value
     if (_.isEmpty(authId)) {
       console.log(`calling auth0 : req_id ${asyncLocalGet("request_id")}`);
-      // console.log("===============================================================================================================================")
+      console.log("===============================================================================================================================")
       const username = _.get(req, "auth.name", "|");
       const picture = _.get(req, "auth.picture", "|");
       const email = _.get(req, "auth.email", "|");
       const auth0_app_metedata = _.get(req, "auth");
-      console.log(auth0_app_metedata);
       const user = {
         auth0_id: authSub,
         username: username,
         email: email,
-        auth0_app_metadata: JSON.stringify(auth0_app_metedata),
+        auth0_app_metadata: auth0_app_metedata,
         picture: picture,
       };
-      // asyncLocalPut("auth0_user", { userId: userId });
+
+      console.log(user);
       const userInDb = await userDbAccessor.insert(user);
       userId = _.get(userInDb, "id");
       asyncLocalPut("auth0_user", { userId: userId });

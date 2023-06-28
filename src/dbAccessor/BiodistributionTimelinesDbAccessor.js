@@ -11,8 +11,7 @@ const ErrorCodes = require("../lib/error/errorCodes.json");
 
 class biodistributionDbAccessor extends BaseDbAccessor {
   constructor() {
-    // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.updateS3bucketsSchema);
-    super(dbConstants.TABLES.BIODISTRIBUTION_TIMELINES);
+    super(dbConstants.TABLES.BIODISTRIBUTION_TIMELINES, dbSchema.biodistributionTimelinesScehma, dbSchema.updateBiodistributionTimelinesSchema);
     }
 
   //returning all the questions

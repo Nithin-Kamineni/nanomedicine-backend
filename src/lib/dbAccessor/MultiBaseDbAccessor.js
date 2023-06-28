@@ -8,15 +8,15 @@ const dbConstants = require("../dbAccessor/constants.json");
 class MultiBaseDbAccessor extends BaseDbAccessor {
     constructor(joiningColumn, joiSchema, tableName1, tableName2, tableName3) {
       if(tableName3 === undefined){
-        super(tableName1+'AND'+tableName2, joiSchema);  
-        this.viewName = tableName1+'AND'+tableName2;
+        super(tableName1+'and'+tableName2, joiSchema);  
+        this.viewName = tableName1+'and'+tableName2;
         this.tableName1 = tableName1;
         this.tableName2 = tableName2;
         this.joiSchema = joiSchema;
         this.JoinTwoTables(joiningColumn);
       } else {
-          super(tableName1+'AND'+tableName2+'AND'+tableName3, joiSchema);  
-          this.viewName = tableName1+'AND'+tableName2+'AND'+tableName3;
+          super(tableName1+'and'+tableName2+'and'+tableName3, joiSchema);  
+          this.viewName = tableName1+'and'+tableName2+'and'+tableName3;
           this.tableName1 = tableName1;
           this.tableName2 = tableName2;
           this.tableName3 = tableName3;

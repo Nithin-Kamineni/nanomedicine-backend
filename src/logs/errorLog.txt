@@ -33,3 +33,70 @@
 20230623	03:21:45	589a7ec4-f7f4-4218-a4c9-402c1900a9c3	SyntaxError: Unexpected token } in JSON at position 391
 20230625	21:59:06	51f5cd86-486c-43d2-bf69-f9e311e86b28	SyntaxError: Unexpected token } in JSON at position 548
 20230625	22:08:23	689903e0-d9e8-4fea-b23c-fc5164f4bf7d	PayloadTooLargeError: request entity too large
+20230626	19:01:18	b56a944f-1be8-4417-87bb-6b2b3ff87cd4	SyntaxError: Unexpected token } in JSON at position 152
+20230627	22:45:25	81b45575-cbac-4fde-8713-ee023ba72f47	UnauthorizedError: No authorization token was found
+20230627	22:45:53	e8e331ba-4e0f-4e2f-a0f2-4a98e41f021c	UnauthorizedError: No authorization token was found
+20230627	22:45:55	6cdb857d-e85d-46b5-85d8-d2172ba260b5	UnauthorizedError: No authorization token was found
+20230627	22:45:55	3bff0741-fe39-408e-a2b4-9de5931d9906	UnauthorizedError: No authorization token was found
+20230627	22:46:08	fd07c3c6-e26b-4b45-85b4-99d497398015	UnauthorizedError: No authorization token was found
+20230627	22:46:08	0c04ebce-4ff3-4f81-ac6c-7116397cee4c	UnauthorizedError: No authorization token was found
+20230627	23:46:34	3f2baa85-e295-4adc-8c0c-b15ec0219ebd	UnauthorizedError: No authorization token was found
+20230627	23:46:34	c60c17e2-4897-4d66-ad66-5e819a4d974b	UnauthorizedError: No authorization token was found
+20230627	23:47:03	c26e071f-901c-443f-b226-59847c75484a	UnauthorizedError: No authorization token was found
+20230627	23:47:05	866cc0f6-e7c6-4ca4-9727-2f6468e3b678	UnauthorizedError: No authorization token was found
+20230627	23:47:05	2eafa7c1-fdc6-44fc-8623-8f14935b221a	UnauthorizedError: No authorization token was found
+20230627	23:47:21	0e2e793a-b339-4d18-a397-0e5d664fec19	UnauthorizedError: No authorization token was found
+20230627	23:47:22	7179cd53-4d4a-4ca8-a1b3-804d5cdd7966	UnauthorizedError: No authorization token was found
+20230627	23:47:22	e8dbe53f-4fac-4260-aa56-eda2bb039250	UnauthorizedError: No authorization token was found
+20230628	00:37:19	6cf4a34e-2779-4d05-b6c1-234039df3c93	UnauthorizedError: No authorization token was found
+20230628	00:37:25	7cccc62b-96b8-4a20-8e4d-17a925adfe29	UnauthorizedError: No authorization token was found
+20230628	00:37:25	20b55c00-074b-47df-82d1-9179dc6b1cc4	UnauthorizedError: No authorization token was found
+20230628	00:37:39	145df72a-c03d-42a9-9a99-5158e4aacd7c	UnauthorizedError: No authorization token was found
+20230628	00:37:48	79f522d4-7a5a-4a75-afe9-2fec2151cc93	UnauthorizedError: No authorization token was found
+20230628	00:37:55	6cdbadd1-d8ef-4c56-9170-b0d8254aa100	UnauthorizedError: No authorization token was found
+20230628	01:30:16	edca3062-8962-4703-bc17-80797687c21a	UnauthorizedError: No authorization token was found
+20230628	01:33:32	2e77a857-8817-4e1b-b9be-73361d852d90	UnauthorizedError: jwt expired
+20230628	01:34:04	e8a18d1c-815d-4b9e-87fb-2b13b11ad3cb	UnauthorizedError: jwt expired
+20230628	02:24:35	218d5c48-7afa-4bc7-abcb-b93b9a3b7ecb	UnauthorizedError: No authorization token was found
+20230628	02:24:35	e75a4480-40ba-4536-901b-7fa53db77b71	UnauthorizedError: No authorization token was found
+20230628	03:14:42	f593fa62-3cf1-4d79-bcfc-d11e5beca438	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\Screenshot (2).png'
+20230628	03:15:03	5aade116-fc03-441f-9580-67b13433c954	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20220930_21_27_34_Pro.jpg'
+20230628	03:19:53	71d070a7-54ee-48e1-8362-86477497ada3	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20220930_21_27_34_Pro.jpg'
+20230628	03:20:23	7b330b3a-a735-4508-9d7a-5280e5d590e6	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20220930_21_27_34_Pro.jpg'
+20230628	03:22:25	64baa2e4-1fb8-4174-b457-360b99ae1a28	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20230218_03_33_23_Pro.jpg'
+20230628	03:23:39	d7322fa1-b962-40ca-b0e8-f9f6d156a47e	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20230218_03_33_23_Pro.jpg'
+20230628	03:23:43	eede6116-d162-41b2-8f4e-d6f0e4b4fae1	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20230218_03_33_23_Pro.jpg'
+20230628	03:24:05	6c79fb00-859f-42af-a398-a72f94055f4e	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\uploads\WIN_20230218_03_33_23_Pro.jpg'
+20230628	03:31:20	1432e4b6-99a1-4ea6-9a8b-cbeb4c4f85c9	UnauthorizedError: No authorization token was found
+20230628	03:31:21	acbf5446-faff-4cca-9b79-42a995c55b42	UnauthorizedError: No authorization token was found
+20230628	03:31:31	4ef3b59c-7310-4d45-b1e8-f1e0a1b5b635	UnauthorizedError: No authorization token was found
+20230628	03:31:31	706e51a7-4ee4-42ea-b520-91cfbf284679	UnauthorizedError: No authorization token was found
+20230628	03:31:49	f73c5401-10f3-46bb-9109-97f4a3b82fb4	UnauthorizedError: No authorization token was found
+20230628	03:31:49	974b4671-a659-40d8-ad79-7518cad313b7	UnauthorizedError: No authorization token was found
+20230628	03:32:04	08c6102b-17c0-41cf-9e79-7844cce8ce50	UnauthorizedError: No authorization token was found
+20230628	03:32:05	ba0d1b34-c13e-41c7-84ee-df3c2dfa8bb7	UnauthorizedError: No authorization token was found
+20230628	04:01:14	8b1af734-848b-4a6a-8697-0a9f014d6950	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246'
+20230628	04:02:01	e33b0516-1d0d-40a9-a698-99c805e30b61	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\google-oauth2|111206964907376045246'
+20230628	04:06:14	74f8b08b-d337-4e7c-b0cd-e061744c6131	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246.jpg'
+20230628	04:09:35	d2cf8bbc-4298-4627-9b19-e0f5f7f69ce8	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246.jpg'
+20230628	04:13:11	23045081-7cb1-44a8-a75b-c673cd6c7e88	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246.jpg'
+20230628	04:14:48	de0bcc0e-81b8-4edf-8700-0a597e43e227	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246.jpg'
+20230628	04:15:19	ec3935f1-e847-4d4f-b1d8-80e78f9b7529	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246.jpg'
+20230628	04:15:32	a9c13884-5542-4271-8950-a97f8dfa6e2e	Error: ENOENT: no such file or directory, open 'C:\profitional\NodeJs\nanomedicine-backend\Assets\profile_images\google-oauth2|111206964907376045246.jpg'
+20230628	12:52:23	ffec7250-7eee-48f3-a310-f4f125ac3bc7	UnauthorizedError: No authorization token was found
+20230628	12:52:35	d98e48d1-77a5-440f-8eb6-948d7127c55d	UnauthorizedError: jwt expired
+20230628	12:53:31	640fe0e5-677c-40b3-8dbb-c7fd9c63bf17	UnauthorizedError: No authorization token was found
+20230628	12:53:46	77bfc11c-3bab-4124-b419-053d0cb61fcb	UnauthorizedError: No authorization token was found
+20230628	12:53:48	75ba9456-1892-46e5-ac70-e9eb09dc4a3d	UnauthorizedError: No authorization token was found
+20230628	12:53:48	031c547f-e548-4a7a-af35-ebc6a06754d9	UnauthorizedError: No authorization token was found
+20230628	12:53:58	d51af072-ff51-4272-ada0-c27c7b7b3979	UnauthorizedError: No authorization token was found
+20230628	12:54:01	b5a20a22-9514-41c6-9edf-b5dbf6f448cc	UnauthorizedError: No authorization token was found
+20230628	12:54:12	c181d0c0-a410-43ef-a90f-a84524bf0370	UnauthorizedError: No authorization token was found
+20230628	12:54:12	0e744c54-59f5-4bdb-82d6-f9184cbecb39	UnauthorizedError: No authorization token was found
+20230628	12:54:35	a2cb9eb2-4404-4012-940b-70c97b4161eb	UnauthorizedError: No authorization token was found
+20230628	12:54:37	3409695b-a855-477c-a34d-84a711c3be2c	UnauthorizedError: No authorization token was found
+20230628	12:54:37	37cc1273-c912-4075-b739-81d50ffd01a2	UnauthorizedError: No authorization token was found
+20230628	13:28:24	9bcb5af9-9a1e-40b1-9916-232bef3387b6	UnauthorizedError: jwt expired
+20230628	14:57:52	11fb8e3f-b268-46f2-a7da-420e9b6df3cf	UnauthorizedError: jwt expired
+20230628	14:57:56	3e932f47-99ea-4b6e-961a-bc59869f59bc	UnauthorizedError: jwt expired
+20230628	14:57:59	fd800454-c616-45fe-8d19-eedfd41e32c2	UnauthorizedError: jwt expired

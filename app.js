@@ -32,21 +32,27 @@ const corsOptions = {
   optionsSuccessStatus: 200
   };
 
+  
+
 app.use(logger)
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use(initLocalStore);
-// app.use(checkJwt);
-// app.use(getAuth0UserDetails);
+app.use(checkJwt);
+app.use(getAuth0UserDetails);
 
 const dashboardRoutes = require('./src/routes/v1/dashboardRoute');
-// const filterParamsForNanoAndBio = require('./src/routes/v1/filterParamsRoute')
+const userRoutes = require('./src/routes/v1/userRoute');
 const errorHandler = require("./src/middleware/errorHandler");
+
 
 
 app.use("/api/test/", require("./src/routes/testRoute"));
 app.use('/api/v1/dashboard',dashboardRoutes);
+app.use('/api/v1/user', userRoutes);
+
+app.use('/Assets', express.static('Assets'));
 
 //error handeling for logging routes that are not present
 app.all("*", (req, res) => {

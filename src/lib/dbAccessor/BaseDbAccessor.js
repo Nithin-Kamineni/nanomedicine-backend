@@ -119,7 +119,9 @@ class BaseDbAccessor {
       });
       let query = `INSERT INTO ${this.tableName} (${columnNames.join(", ")}) VALUES (${valuesPlaceHolder.join(", ")}) RETURNING *`;
 
-      // console.log(query);
+      console.log(query);
+      console.log(columnValues)
+      console.log("---------------------------------------------")
       let res = await client.query(query, columnValues);
       let row = res.rows[0];
       return _.omitBy(row, _.isNull);
@@ -240,6 +242,37 @@ class BaseDbAccessor {
       throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Possible error while executing select query with filter");
     }
   }
+
+  async selectColumnNames() {
+    console.log(`call received for filter and select : req_id ${asyncLocalGet("request_id")} filter:{}`);
+    const start = new Date().getMilliseconds();
+    try {
+      // const filterSchema = this.joiSchema.fork(Object.keys(this.joiSchema.describe().keys), (schema) => schema.optional());
+      // await filterSchema.validateAsync(filter);
+
+      
+      const query = `SELECT column_name FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
+      console.log(query);
+      const res = await pool.query(query);
+      let rows = res.rows;
+      const rowsArr = [];
+      _.forEach(rows, (row) => rowsArr.push(_.omitBy(row, _.isNull)));
+      let columnNames = [];
+      for (let i = 0; i < rowsArr.length; i++) {
+        columnNames.push(rowsArr[i].column_name);
+      }
+      const end = new Date().getMilliseconds();
+      console.log(`db call received for select all : req_id ${asyncLocalGet("request_id")} took: ${end - start} millis`);
+      return {"column_names": columnNames};
+    } catch (e) {
+      console.log(`Db call error : req_id ${asyncLocalGet("request_id")} error: ${e}`);
+      if (e.name == "ValidationError") {
+        throw new BaseError(ErrorCodes.DB.JOI_VALIDATION_ERROR, e, `row in table::${this.tableName} failed filter Joi validation.`);
+      }
+      throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Possible error while executing select query with filter");
+    }
+  }
+  
 
   _removeInvalidFields(rowObject) {
     let validColumns = _.keys(this.joiSchema.describe().keys);
