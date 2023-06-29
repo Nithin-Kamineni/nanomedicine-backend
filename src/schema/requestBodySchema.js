@@ -34,7 +34,37 @@ const updateFilterNanoAndBioSchema = filterNanoAndBioSchema.fork(["nano_tumor_id
 "shape", "pdi", "size_tem", "size_hd", "zeta_potential", "tumor_cell", "tumor_size", "np_administration", "bw_np_administration", "animal", "reference", "time_point", 
 "tumor", "heart", "liver", "spleen", "lung", "kidney", "blood_type"], (schema) => schema.optional());
 
+const userDetailsUpdateRequest = Joi.object({
+    company: Joi.string(),
+    country: Joi.string(),
+    phone_number: Joi.string(),
+    linkedin_url: Joi.string()
+});
+
+const userImageUpdateRequest = Joi.object({
+    image: Joi.object({
+      fieldname: Joi.string().valid('image').required(),
+      originalname: Joi.string().required(),
+      encoding: Joi.string().required(),
+      mimetype: Joi.string().valid('image/jpeg', 'image/png').required(),
+      destination: Joi.string().required(),
+      filename: Joi.string().required(),
+      path: Joi.string().required(),
+      size: Joi.number().required(),
+    })
+  });
+
+  const userSubscriptionUpdateRequest = Joi.object({
+    project_announcements_and_updates: Joi.boolean(),
+    events_and_meetups: Joi.boolean(),
+    user_research_surveys: Joi.boolean(),
+});
+
+
 module.exports = {
     filterNanoAndBioSchema,
     updateFilterNanoAndBioSchema,
+    userDetailsUpdateRequest,
+    userImageUpdateRequest,
+    userSubscriptionUpdateRequest
 };

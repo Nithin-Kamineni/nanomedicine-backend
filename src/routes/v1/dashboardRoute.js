@@ -9,8 +9,15 @@ const _ = require("lodash");
 const UserDbAccessordbAccessor = require("../../dbAccessor/UserDbAccessor");
 const userDbAccessordbAccessor = new UserDbAccessordbAccessor();
 
-// nanoparticles
-router.get("/nanoparticles", async (req, res) => {
+/**
+ * @swagger
+ * tags:
+ *   name: Dashboard
+ *   description: API to manage dashbaord
+ */
+
+// (column names) nanoparticles //not done
+router.get("/nanoparticles/columns", async (req, res) => {
     try{
         const result = await dashboardHandler.GetNanoparticles(req.query);
         res.status(result.status || StatusCodes.OK).send(result);
@@ -27,7 +34,94 @@ router.get("/nanoparticles", async (req, res) => {
 });
 
 
-// biodistribution_timelines 
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles:
+ *     get:
+ *       summary: Get details of the user
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+// (get All) nanoparticles
+router.get("/nanoparticles", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetNanoparticles(req.query);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (filter) nanoparticles         //not done
+router.post("/nanoparticles", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetNanoparticles(req.query);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (insert) nanoparticles        //not done
+router.put("/nanoparticles", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetNanoparticles(req.query);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (column names) biodistribution_timelines //not done
+router.get("/biodistribution/columns", async (req, res) => {
+    try{
+
+        const result = await dashboardHandler.GetBiodistributionTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (Get all) biodistribution_timelines 
 router.get("/biodistribution", async (req, res) => {
     try{
 
@@ -45,7 +139,43 @@ router.get("/biodistribution", async (req, res) => {
     }
 });
 
-// column names <- nanoparticles + biodistribution_timelines
+// (filter) biodistribution_timelines //not done
+router.post("/biodistribution", async (req, res) => {
+    try{
+
+        const result = await dashboardHandler.GetBiodistributionTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (insert) biodistribution_timelines //not done
+router.put("/biodistribution", async (req, res) => {
+    try{
+
+        const result = await dashboardHandler.GetBiodistributionTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (column names) blooddata
 router.get("/blooddata/columns", async (req, res) => {
     try{
         const result = await dashboardHandler.GetColumnsForBloodData();
@@ -62,7 +192,7 @@ router.get("/blooddata/columns", async (req, res) => {
     }
 });
 
-// blooddata_timelines
+// (select all) blooddata_timelines
 router.get("/blooddata", async (req, res) => {
     try{
         const result = await dashboardHandler.GetBloodDataTimelines(req.body);
@@ -79,7 +209,41 @@ router.get("/blooddata", async (req, res) => {
     }
 });
 
-// column names <- nanoparticles + biodistribution_timelines
+// (filter) blooddata_timelines //not done
+router.post("/blooddata", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetBloodDataTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (insert) blooddata_timelines  //not done
+router.put("/blooddata", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetBloodDataTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (column names) nanoparticles + biodistribution_timelines
 router.get("/nanoparticles&biodistribution/columns", async (req, res) => {
     try{
         const result = await dashboardHandler.GetColumnsForNanoparticlesAndBiodistributionTimelines();
@@ -96,7 +260,7 @@ router.get("/nanoparticles&biodistribution/columns", async (req, res) => {
     }
 });
 
-// nanoparticles + biodistribution_timelines
+// (select all) nanoparticles + biodistribution_timelines
 router.get("/nanoparticles&biodistribution", async (req, res) => {
     try{
         const result = await dashboardHandler.GetNanoparticlesAndBiodistributionTimelines(req.body);
@@ -113,6 +277,7 @@ router.get("/nanoparticles&biodistribution", async (req, res) => {
     }
 });
 
+// (filter params) nanoparticles + biodistribution_timelines
 router.get("/nanoparticles&biodistribution/filter-params/", async (req, res) => {
     try{
         const result = await dashboardHandler.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines(req.body);
@@ -146,9 +311,8 @@ router.post("/nanoparticles&biodistribution", async (req, res) => {
     }
 });
 
-
 // (insert) nanoparticles + biodistribution_timelines
-router.post("/nanoparticles&biodistribution/add", async (req, res) => {
+router.put("/nanoparticles&biodistribution", async (req, res) => {
     try{
         //checking permision const authSub = _.get(req, "auth.sub", "|");
         const authSub = _.get(req, "auth.sub", "|");
@@ -176,4 +340,6 @@ router.post("/nanoparticles&biodistribution/add", async (req, res) => {
         });
     }
 });
+
+
 module.exports = router;

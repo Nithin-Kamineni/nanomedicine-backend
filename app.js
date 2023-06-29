@@ -8,6 +8,7 @@ const { initLocalStore } = require("./src/middleware/asyncLocalStorage");  //sto
 const { checkJwt, getAuth0UserDetails } = require("./src/middleware/auth"); //prior1
 const { logger } = require("./src/middleware/logEvents");
 const { StatusCodes } = require("http-status-codes");
+
 dotenv.config();
 
 const config = {
@@ -20,7 +21,7 @@ const config = {
 };
 
 //CORS allowed url's
-const whiteList = [process.env.UI_URL,process.env.MOBILE_APP_URL]
+const whiteList = [process.env.UI_URL,process.env.MOBILE_APP_URL,process.env.BASE_URL]
 const corsOptions = {
   origin: (origin, callback) => {
     if(whiteList.indexOf(origin)!==-1 || !origin){   //after development remove || !origin
@@ -39,12 +40,36 @@ app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use(initLocalStore);
-app.use(checkJwt);
+
+
+// app.use(checkJwt);
+
+
+// Middleware to allow specific URLs(SwaggerUI) without authentication
+const allowUnauthenticatedUrls = (req, res, next) => {
+  const { originalUrl } = req;
+  
+  // Check if the URL includes "/api-docs"
+  if (originalUrl.includes("/api-docs")) {
+    // Skip authentication and move to the next middleware
+    next();
+  } else {
+    // Continue with the authentication process
+    // app.use(checkJwt);
+    checkJwt(req, res, next);
+    
+  }
+};
+app.use(allowUnauthenticatedUrls);
+
 app.use(getAuth0UserDetails);
 
 const dashboardRoutes = require('./src/routes/v1/dashboardRoute');
 const userRoutes = require('./src/routes/v1/userRoute');
 const errorHandler = require("./src/middleware/errorHandler");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express")
+const options = require("./src/swagger");
 
 
 
@@ -53,6 +78,9 @@ app.use('/api/v1/dashboard',dashboardRoutes);
 app.use('/api/v1/user', userRoutes);
 
 app.use('/Assets', express.static('Assets'));
+
+const specs = swaggerJSDoc(options)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 //error handeling for logging routes that are not present
 app.all("*", (req, res) => {

@@ -72,8 +72,11 @@ function getAllPermissions(req, resp)  {
 
 const getAuth0UserDetails = async (req, resp, next) => {
   const authSub = _.get(req, "auth.sub", "|");
-  // console.log(authSub, username, picture, email);
-  // console.log(auth0_app_metedata);
+  if (req.originalUrl.includes("/api-docs")) {
+    // Skip authentication for "/api-docs" routes
+    next();
+    return;
+  }
   try {
     const user = _.get(await userDbAccessor.filterUsers({ auth0_id: authSub }), "0");
     let authId = _.get(user,"auth0_id");

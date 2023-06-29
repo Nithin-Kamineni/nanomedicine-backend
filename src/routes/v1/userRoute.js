@@ -7,6 +7,14 @@ const router = new express.Router();
 const _ = require("lodash");
 const multer = require('multer');
 const path = require('path');
+const requestBodiesSchema = require('../../schema/requestBodySchema')
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: API to manage users
+ */
 
 
 // Define the storage configuration
@@ -27,6 +35,28 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+
+
+
+
+/** 
+ * @swagger
+ *   /user/details:
+ *     get:
+ *       summary: Get details of the user
+ *       tags: [Users]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 router.get("/details", async (req, res) => {
     try{
         const authSub = _.get(req, "auth.sub", "|");
@@ -45,10 +75,37 @@ router.get("/details", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /user/update:
+ *     put:
+ *       summary: Update details of the user
+ *       tags: [Users]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/userDetailsUpdateRequest'
+ *       responses:
+ *         "200":
+ *           description: The updating the details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 router.put("/update", async (req, res) => {
     try{
         //check only user attributes in req.body (no image)
         //
+        const requestSchema = requestBodiesSchema.userDetailsUpdateRequest.fork(Object.keys(requestBodiesSchema.userDetailsUpdateRequest.describe().keys), (schema) => schema.optional());
+        console.log(req.body)
+        await requestSchema.validateAsync(req.body);
 
         const authSub = _.get(req, "auth.sub", "|");
         req.body.auth0_id=authSub;
@@ -61,11 +118,36 @@ router.put("/update", async (req, res) => {
         }
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             status: StatusCodes.INTERNAL_SERVER_ERROR,
-            error: "Server Error",
+            error: `${err}`,
         });
     }
 });
 
+
+/** 
+ * @swagger
+ *   /user/update/image:
+ *     put:
+ *       summary: Update image of the user
+ *       tags: [Users]
+ *       requestForm:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/userImageUpdateRequest'
+ *       responses:
+ *         "200":
+ *           description: The updating the details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 router.put("/update/image", upload.single('image'), async (req, res) => {
     try{
         //check only user image in req.body
@@ -92,6 +174,25 @@ router.put("/update/image", upload.single('image'), async (req, res) => {
     }
 });
 
+
+/** 
+ * @swagger
+ *   /user/subscription-preference:
+ *     get:
+ *       summary: Get subscription details of the user
+ *       tags: [Users]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 router.get("/subscription-preference", async (req, res) => {
     try{
         //check only subscription attributes in req.body
@@ -113,10 +214,37 @@ router.get("/subscription-preference", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /user/subscription-preference:
+ *     post:
+ *       summary: Update subscription details of the user
+ *       tags: [Users]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/userSubscriptionUpdateRequest'
+ *       responses:
+ *         "200":
+ *           description: The updating the details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 router.post("/subscription-preference", async (req, res) => {
     try{
         //check only subscription attributes in req.body
         //
+        const requestSchema = requestBodiesSchema.userSubscriptionUpdateRequest.fork(Object.keys(requestBodiesSchema.userSubscriptionUpdateRequest.describe().keys), (schema) => schema.optional());
+        console.log(req.body)
+        await requestSchema.validateAsync(req.body);
 
         const authSub = _.get(req, "auth.sub", "|");
         console.log(authSub)
@@ -130,11 +258,30 @@ router.post("/subscription-preference", async (req, res) => {
         }
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
             status: StatusCodes.INTERNAL_SERVER_ERROR,
-            error: "Server Error",
+            error: `${err}`,
         });
     }
 });
 
+
+/** 
+ * @swagger
+ *   /user/subscription-preference:
+ *     delete:
+ *       summary:  unsubscribe user
+ *       tags: [Users]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           contents:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 router.delete("/subscription-preference", async (req, res) => {
     try{
         //check only subscription attributes in req.body
