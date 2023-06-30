@@ -272,6 +272,60 @@ class BaseDbAccessor {
       throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Possible error while executing select query with filter");
     }
   }
+
+  async columnAndParameters() {
+    let query = `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
+    let res = await pool.query(query);
+    let columnNamesAndTypes = res.rows;
+    let paramList;
+    let rows;
+    let columnName;
+    console.log(columnNamesAndTypes);
+
+    const output = {};
+    for(let i=0;i<columnNamesAndTypes.length;i++){
+      columnName = columnNamesAndTypes[i].column_name
+      if(columnNamesAndTypes[i].data_type=='integer'){
+        continue;
+      }
+      else if(columnNamesAndTypes[i].data_type=='character varying'){
+        query = `select DISTINCT(${columnName}) from ${this.tableName}`;
+        res = await pool.query(query);
+        rows = res.rows;
+        paramList = rows.map(data => data[columnName]);
+        output[columnName] = paramList;
+      }
+      else if(columnNamesAndTypes[i].data_type=='numrange'){
+        query = `select min(LOWER(${columnName})),max(UPPER(${columnName})) from ${this.tableName}`;
+        res = await pool.query(query);
+        rows = res.rows;
+        if(rows[0]["max"]==Infinity){
+          rows[0]["max"]="Infinity"
+        }
+        if(rows[0]["min"]==-Infinity){
+          rows[0]["min"]="-Infinity"
+        }
+        output[columnName] = rows[0];
+      }
+      else if(columnNamesAndTypes[i].data_type=='numeric' || columnNamesAndTypes[i].data_type=='double precision'){
+        query = `select min(${columnName}),max(${columnName}) from ${this.tableName}`;
+        res = await pool.query(query);
+        rows = res.rows;
+        if(rows[0]["max"]==Infinity){
+          rows[0]["max"]="Infinity"
+        }
+        if(rows[0]["min"]==-Infinity){
+          rows[0]["min"]="-Infinity"
+        }
+        output[columnName] = rows[0];
+      }
+      else{
+        throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Error due to column type");
+      }
+
+    }
+    return output;
+  }
   
 
   _removeInvalidFields(rowObject) {

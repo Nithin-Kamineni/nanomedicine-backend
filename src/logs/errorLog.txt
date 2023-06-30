@@ -177,3 +177,15 @@
 20230629	21:32:13	e37fee9e-0fb3-4067-b0f0-8ff7cea077db	UnauthorizedError: No authorization token was found
 20230629	21:32:13	4f8d0b6c-cf8b-4b36-94b6-2a0707190b8f	UnauthorizedError: No authorization token was found
 20230629	21:57:16	3186d1cc-6fa8-4862-8b36-9d6cad9be582	UnauthorizedError: No authorization token was found
+20230630	02:41:10	c5097b7b-0004-4d90-8215-c96df6e8f16b	Error: getaddrinfo ENOTFOUND nanomedicine.us.auth0.com
+20230630	02:41:33	ef4cb919-b21d-4814-babb-5285e7588d95	Error: getaddrinfo ENOTFOUND nanomedicine.us.auth0.com
+20230630	02:42:20	042be309-68d5-4baa-b89d-c733a18bb398	Error: getaddrinfo ENOTFOUND nanomedicine.us.auth0.com
+20230630	02:44:02	0cb13db8-8e69-4837-a782-2c355e728e24	UnauthorizedError: jwt expired
+20230630	10:35:09	6541503e-94d4-40ad-a173-c06f1dcc99b6	UnauthorizedError: No authorization token was found
+20230630	10:35:48	e2858a23-b803-4b16-8910-15615b5a71b2	UnauthorizedError: No authorization token was found
+20230630	10:35:50	f6391ff8-a594-4d32-877f-4b22b42d6b31	UnauthorizedError: No authorization token was found
+20230630	10:35:50	f828678f-54a4-47ce-9249-fc8bb5008ac1	UnauthorizedError: No authorization token was found
+20230630	10:35:54	7fc6e6c9-e677-4e92-b205-c7afecdcc81f	UnauthorizedError: No authorization token was found
+20230630	10:36:14	b2b27903-28bb-43e1-ba2f-3fc414e51e09	UnauthorizedError: No authorization token was found
+20230630	10:36:24	8ca954ae-18f8-4c27-be6f-b882b9418662	UnauthorizedError: No authorization token was found
+20230630	10:36:24	be96313d-bbbe-4962-992f-369884e5a42e	UnauthorizedError: No authorization token was found

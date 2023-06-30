@@ -302,6 +302,23 @@ router.get("/blooddata", async (req, res) => {
     }
 });
 
+// (filter-params) blooddata_timelines //not done
+router.post("/blooddata/filter-params", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetBloodDataTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
 // (filter) blooddata_timelines //not done
 router.post("/blooddata", async (req, res) => {
     try{

@@ -44,8 +44,8 @@ module.exports.GetBiodistributionTimelines = async (options) =>{
 // columns for table 3
 module.exports.GetColumnsForBloodData = async () =>{
     // options have contents/body of post request
-    let dataRecords = await bloodDataDbAccessor.selectColumnNames();
-    console.log(dataRecords);
+    let dataRecords = await bloodDataDbAccessor.columnAndParameters();
+    // console.log(dataRecords);
     return dataRecords;
 };
 
