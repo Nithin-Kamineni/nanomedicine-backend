@@ -74,8 +74,8 @@ const bloodDataTimlinesSchema = Joi.object({
 const updateBloodDataTimlinesSchema = bloodDataTimlinesSchema.fork(["nano_tumor_id", "time_point", "plasma_id_pc"], (schema) => schema.optional());
 
 const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
-    id: Joi.number().required(),
-    nano_tumor_id: Joi.string(),
+    id: Joi.number(),
+    nano_tumor_id: Joi.string().required(),
     particle_type: Joi.string(),
     core_material: Joi.string(),
     targeting_strategy: Joi.string(),
@@ -86,9 +86,15 @@ const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
     size_hd: Joi.number(),
     zeta_potential: Joi.number(),
     tumor_cell: Joi.string(),
-    tumor_size: Joi.object(),
+    tumor_size: Joi.object({
+        min: Joi.number(),
+        max: Joi.number()
+    }),
     np_administration: Joi.string(),
-    bw_np_administration: Joi.object(),
+    bw_np_administration: Joi.object({
+        min: Joi.number(),
+        max: Joi.number()
+    }),
     animal: Joi.string(),
     reference: Joi.string(),
     time_point: Joi.number(),

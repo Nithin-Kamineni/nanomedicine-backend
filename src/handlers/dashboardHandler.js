@@ -11,10 +11,24 @@ const nanoparticlesAndbloodDataDbAccessor = new NanoparticlesAndBBloodDataTimeli
 
 const requestBodiesSchema = require('../schema/requestBodySchema')
 
+module.exports.GetNanoparticlesColumns = async () =>{
+    // options have parameters of get request
+    let dataRecords = await nanoparticlesdbAccessor.selectColumnNames();
+    console.log(dataRecords);
+    return dataRecords;
+};
+
 // sprint 1
 module.exports.GetNanoparticles = async (options) =>{
     // options have parameters of get request
     let dataRecords = await nanoparticlesdbAccessor.selectAll(options);
+    console.log(dataRecords);
+    return dataRecords;
+};
+
+module.exports.GetBiodistributionTimelinesColumns = async () =>{
+    // options have parameters of get request
+    let dataRecords = await biodistributionDbAccessor.selectColumnNames();
     console.log(dataRecords);
     return dataRecords;
 };

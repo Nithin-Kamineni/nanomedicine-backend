@@ -16,10 +16,29 @@ const userDbAccessordbAccessor = new UserDbAccessordbAccessor();
  *   description: API to manage dashbaord
  */
 
-// (column names) nanoparticles //not done
+
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles/columns:
+ *     get:
+ *       summary: Get columns of the nanoparticles
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+// (column names) nanoparticles
 router.get("/nanoparticles/columns", async (req, res) => {
     try{
-        const result = await dashboardHandler.GetNanoparticles(req.query);
+        const result = await dashboardHandler.GetNanoparticlesColumns();
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -38,7 +57,7 @@ router.get("/nanoparticles/columns", async (req, res) => {
  * @swagger
  *   /dashboard/nanoparticles:
  *     get:
- *       summary: Get details of the user
+ *       summary: Get details of the nanoparticles
  *       tags: [Dashboard]
  *       responses:
  *         "200":
@@ -103,11 +122,30 @@ router.put("/nanoparticles", async (req, res) => {
     }
 });
 
-// (column names) biodistribution_timelines //not done
+
+/** 
+ * @swagger
+ *   /dashboard/biodistribution/columns:
+ *     get:
+ *       summary: Get columns of the biodistribution_timelines
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+// (column names) biodistribution_timelines
 router.get("/biodistribution/columns", async (req, res) => {
     try{
 
-        const result = await dashboardHandler.GetBiodistributionTimelines(req.body);
+        const result = await dashboardHandler.GetBiodistributionTimelinesColumns(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -121,6 +159,24 @@ router.get("/biodistribution/columns", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/biodistribution:
+ *     get:
+ *       summary: Get details of the biodistribution_timelines
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (Get all) biodistribution_timelines 
 router.get("/biodistribution", async (req, res) => {
     try{
@@ -175,6 +231,25 @@ router.put("/biodistribution", async (req, res) => {
     }
 });
 
+
+/** 
+ * @swagger
+ *   /dashboard/blooddata/columns:
+ *     get:
+ *       summary: Get columns of the blooddata_timelines
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (column names) blooddata
 router.get("/blooddata/columns", async (req, res) => {
     try{
@@ -192,6 +267,24 @@ router.get("/blooddata/columns", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/blooddata:
+ *     get:
+ *       summary: Get details of the blooddata_timelines
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (select all) blooddata_timelines
 router.get("/blooddata", async (req, res) => {
     try{
@@ -243,6 +336,24 @@ router.put("/blooddata", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution/columns:
+ *     get:
+ *       summary: Get columns of the nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (column names) nanoparticles + biodistribution_timelines
 router.get("/nanoparticles&biodistribution/columns", async (req, res) => {
     try{
@@ -260,6 +371,24 @@ router.get("/nanoparticles&biodistribution/columns", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution:
+ *     get:
+ *       summary: Get details of the nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (select all) nanoparticles + biodistribution_timelines
 router.get("/nanoparticles&biodistribution", async (req, res) => {
     try{
@@ -277,8 +406,26 @@ router.get("/nanoparticles&biodistribution", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution/filter-params:
+ *     get:
+ *       summary: Get filter parameters of the nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (filter params) nanoparticles + biodistribution_timelines
-router.get("/nanoparticles&biodistribution/filter-params/", async (req, res) => {
+router.get("/nanoparticles&biodistribution/filter-params", async (req, res) => {
     try{
         const result = await dashboardHandler.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
@@ -294,6 +441,30 @@ router.get("/nanoparticles&biodistribution/filter-params/", async (req, res) => 
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution:
+ *     post:
+ *       summary: Get details of the nanoparticles and biodistribution (filter)
+ *       tags: [Dashboard]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_biodistribution_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles and biodistribution based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (filter) nanoparticles + biodistribution_timelines
 router.post("/nanoparticles&biodistribution", async (req, res) => {
     try{
@@ -311,7 +482,31 @@ router.post("/nanoparticles&biodistribution", async (req, res) => {
     }
 });
 
-// (insert) nanoparticles + biodistribution_timelines
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution:
+ *     put:
+ *       summary: Insert details into nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_biodistributionTimelinesSchema'
+ *       responses:
+ *         "200":
+ *           description: Adding details of nanoparticles and biodistribution into database based on token permission
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+// (insert) nanoparticles + biodistribution_timelines    //not done check schema
 router.put("/nanoparticles&biodistribution", async (req, res) => {
     try{
         //checking permision const authSub = _.get(req, "auth.sub", "|");

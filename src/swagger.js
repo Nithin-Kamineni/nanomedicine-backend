@@ -46,6 +46,8 @@ const options = {
             userImageUpdateRequest: convert(requestSchema.userImageUpdateRequest),
             userSubscriptionUpdateRequest: convert(requestSchema.userSubscriptionUpdateRequest),
             nanoparticles: convert(dbSchema.nanoparticlesSchema),
+            nanoparticles_biodistribution_filter: convert(requestSchema.filterNanoAndBioSchema),
+            nanoparticles_biodistributionTimelinesSchema: convert(dbSchema.nanoparticlesAndBiodistributionTimelinesSchema)
         },
         responses : {
             400: {
@@ -75,7 +77,7 @@ const options = {
       }]
 
     },
-    apis: ["./src/routes/v1/dashboardRoute.js","./src/routes/v1/userRoute.js"],
+    apis: ["./src/routes/v1/dashboardRoute.js","./src/routes/v1/userRoute.js","./src/routes/v1/visualizationRoute.js"],
 }
 
 module.exports = options
