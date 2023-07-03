@@ -189,3 +189,16 @@
 20230630	10:36:14	b2b27903-28bb-43e1-ba2f-3fc414e51e09	UnauthorizedError: No authorization token was found
 20230630	10:36:24	8ca954ae-18f8-4c27-be6f-b882b9418662	UnauthorizedError: No authorization token was found
 20230630	10:36:24	be96313d-bbbe-4962-992f-369884e5a42e	UnauthorizedError: No authorization token was found
+20230703	03:15:39	9e3b3a67-8ce7-43f7-8787-540761e58e43	UnauthorizedError: jwt expired
+20230703	03:16:01	06d06cd6-0575-41de-847b-3b9c42505d60	UnauthorizedError: jwt expired
+20230703	03:16:27	5b0db42c-0aab-4900-89f7-f420fb82cf1c	UnauthorizedError: jwt expired
+20230703	03:17:29	26d5c154-6cce-4a0b-bfb6-c082a86a462a	UnauthorizedError: jwt expired
+20230703	03:18:06	53c5ba80-3356-44df-aa59-659d853cad0d	UnauthorizedError: jwt expired
+20230703	03:18:30	c56fcd0e-ab72-4dcc-b314-ad345480cd1a	UnauthorizedError: jwt expired
+20230703	03:18:32	22771512-3acd-483a-b346-ef8368ab465c	UnauthorizedError: jwt expired
+20230703	03:18:43	4f4a479e-e708-444f-8f78-aed79e131bfa	UnauthorizedError: jwt expired
+20230703	03:18:50	6ba76c89-ce0b-48ed-be88-0da8d07be400	UnauthorizedError: No authorization token was found
+20230703	03:19:01	ea830367-6c23-49bb-8b1c-3199888b05c7	UnauthorizedError: No authorization token was found
+20230703	03:20:38	28596208-4994-412e-94b7-37e73aaeee3e	UnauthorizedError: No authorization token was found
+20230703	03:21:38	9e54efe5-094e-40a0-8358-f356877611d2	UnauthorizedError: No authorization token was found
+20230703	14:57:06	dbaa086f-2b9e-42ed-8590-cbf421444949	UnauthorizedError: jwt expired

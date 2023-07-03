@@ -102,10 +102,9 @@ class BaseDbAccessor {
       rowObject["modified_at"] = new Date().toISOString();
       rowObject["created_at"] = new Date().toISOString();
       
+      console.log("---------------------------------------------")
       this._removeInvalidFields(rowObject);
-
-      
-
+      console.log(rowObject);
       await this.joiSchema.fork(["id"], (schema) => schema.optional()).validateAsync(rowObject);
       
       let columnNames = [];
@@ -251,19 +250,20 @@ class BaseDbAccessor {
       // await filterSchema.validateAsync(filter);
 
       
-      const query = `SELECT column_name FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
+      const query = `SELECT column_name,data_type FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
       console.log(query);
       const res = await pool.query(query);
       let rows = res.rows;
       const rowsArr = [];
       _.forEach(rows, (row) => rowsArr.push(_.omitBy(row, _.isNull)));
+      
       let columnNames = [];
       for (let i = 0; i < rowsArr.length; i++) {
-        columnNames.push(rowsArr[i].column_name);
+        columnNames.push({"columnNames": rowsArr[i].column_name, "columnTypes": rowsArr[i].data_type});
       }
       const end = new Date().getMilliseconds();
       console.log(`db call received for select all : req_id ${asyncLocalGet("request_id")} took: ${end - start} millis`);
-      return {"column_names": columnNames};
+      return {"Columns": columnNames};
     } catch (e) {
       console.log(`Db call error : req_id ${asyncLocalGet("request_id")} error: ${e}`);
       if (e.name == "ValidationError") {
@@ -285,7 +285,19 @@ class BaseDbAccessor {
     const output = {};
     for(let i=0;i<columnNamesAndTypes.length;i++){
       columnName = columnNamesAndTypes[i].column_name
-      if(columnNamesAndTypes[i].data_type=='integer'){
+      if(columnName=="year_of_cited_record"){
+        query = `select min(${columnName}),max(${columnName}) from ${this.tableName}`;
+        res = await pool.query(query);
+        rows = res.rows;
+        if(rows[0]["max"]==Infinity){
+          rows[0]["max"]="Infinity"
+        }
+        if(rows[0]["min"]==-Infinity){
+          rows[0]["min"]="-Infinity"
+        }
+        output[columnName] = rows[0];
+      }
+      else if(columnNamesAndTypes[i].data_type=='integer'){
         continue;
       }
       else if(columnNamesAndTypes[i].data_type=='character varying'){
@@ -325,6 +337,90 @@ class BaseDbAccessor {
 
     }
     return output;
+  }
+
+  async filterAndSelectBasedOnParams(filter) {
+    console.log(`call received for filter and select : req_id ${asyncLocalGet("request_id")} filter: ${filter}`);
+    const start = new Date().getMilliseconds();
+
+    let query = `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
+    let res = await pool.query(query);
+    let columnNamesAndTypes = res.rows;
+    
+    const columnTypesMap = {};
+    columnNamesAndTypes.forEach(item => {
+      const column_name = item.column_name;
+      const data_type = item.data_type;
+      columnTypesMap[column_name] = data_type;
+    });
+    // console.log(columnTypesMap);
+    // console.log(filter);
+    try {
+      let whereClause = [];
+      let values = [];
+      // const filterSchema = this.joiSchema.fork(Object.keys(this.joiSchema.describe().keys), (schema) => schema.optional());
+      // await filterSchema.validateAsync(filter);
+      
+
+      let i = 1;
+      _.forEach(filter, (columnValue, columnName) => {
+        
+        if (_.isEmpty(columnName) || _.isEmpty(columnValue)) {
+          return;
+        }
+        if(columnName=="operation"){
+          return;  //continue
+        }
+        if(columnTypesMap[columnName]=="double precision"||columnTypesMap[columnName]=="numeric"||columnName=="year_of_cited_record"){
+          let lowerColumnValue = columnValue[0];
+          let upperColumnValue = columnValue[1];
+          values.push(lowerColumnValue);
+          values.push(upperColumnValue);
+          whereClause.push(`${columnName} >= $${i++} AND ${columnName} <= $${i++}`);
+        }
+        else if(columnTypesMap[columnName]=="numrange"){
+          values.push(`[${columnValue.toString()}]`);
+          whereClause.push(`${columnName} && $${i++}`);
+        }
+        else if(columnTypesMap[columnName]=="character varying"){
+          values.push(...columnValue);
+          whereClause.push(`${columnName} IN (${columnValue.map(name => `$${i++}`).join(', ')})`); 
+        }
+        else if(columnTypesMap[columnName]=="integer" && columnName!="year_of_cited_record"){
+          return; //continue
+        }
+        else{
+          values.push(columnValue);
+          whereClause.push(`${columnName} = $${i++}`);
+        }     
+      });
+      // console.log(filter)
+      let query;
+      if(filter.operation=="intersection"){
+        query = `SELECT * from ${this.tableName} WHERE ${whereClause.join(" AND ")}`;
+      }
+      else if(filter.operation=="union"){
+        query = `SELECT * from ${this.tableName} WHERE ${whereClause.join(" OR ")}`;
+      }
+      else {
+        throw new BaseError(ErrorCodes.DB.UNKNOWN, e, `row in table::${this.tableName} failed Operation not defined.`);
+      }
+      console.log(query);
+      console.log(values);
+      const res = await pool.query(query, values);
+      let rows = res.rows;
+      const rowsArr = [];
+      _.forEach(rows, (row) => rowsArr.push(_.omitBy(row, _.isNull)));
+      const end = new Date().getMilliseconds();
+      console.log(`db call received for filter and select : req_id ${asyncLocalGet("request_id")} took: ${end - start} millis`);
+      return rowsArr;
+    } catch (e) {
+      console.log(`Db call error : req_id ${asyncLocalGet("request_id")} error: ${e}`);
+      if (e.name == "ValidationError") {
+        throw new BaseError(ErrorCodes.DB.JOI_VALIDATION_ERROR, e, `row in table::${this.tableName} failed filter Joi validation.`);
+      }
+      throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Possible error while executing select query with filter");
+    }
   }
   
 

@@ -57,12 +57,13 @@ const allowUnauthenticatedUrls = (req, res, next) => {
     // Continue with the authentication process
     // app.use(checkJwt);
     checkJwt(req, res, next);
+    // next();
     
   }
 };
 app.use(allowUnauthenticatedUrls);
 
-app.use(getAuth0UserDetails);
+// app.use(getAuth0UserDetails);
 
 const dashboardRoutes = require('./src/routes/v1/dashboardRoute');
 const userRoutes = require('./src/routes/v1/userRoute');

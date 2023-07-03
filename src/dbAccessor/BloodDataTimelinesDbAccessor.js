@@ -11,49 +11,60 @@ const ErrorCodes = require("../lib/error/errorCodes.json");
 
 class blooddataDbAccessor extends BaseDbAccessor {
   constructor() {
-    // super(dbConstants.TABLES.NANOPARTICLES, dbSchema.NANOPARTICLES, dbSchema.updateS3bucketsSchema);
-    super(dbConstants.TABLES.BLOOD_DATA_TIMELINES);
+    super(dbConstants.TABLES.BLOOD_DATA_TIMELINES, dbSchema.bloodDataTimlinesSchema, dbSchema.updateBloodDataTimlinesSchema);
     }
 
-  //returning all the questions
-  async selectAllQuestions(options){  
-
-    let query = `SELECT * from nanoparticles ORDER BY id ASC LIMIT 2`;
-    console.log(dbConstants.TABLES.NANOPARTICLES)
-    console.log(query);
-
-    // curently no database so just dummy values
-    try{
-      const res = await pool.query(query);
-      let rows = res.rows;
-      
-      let rowsArr = [];
-      _.forEach(rows, (row) => rowsArr.push(row));
-      return rowsArr;
-      // return {"message":"Test select"}
-
-    } catch(e) {
-      console.log(`error : ${JSON.stringify(e)}`);
-      if (e.name == "ValidationError") {
-        throw new BaseError(ErrorCodes.DB.JOI_VALIDATION_ERROR, e, `row in table::${this.tableName} failed filter Joi validation.`);
-      }
-      throw new BaseError(ErrorCodes.DB.UNKNOWN, e, "Possible error while executing select query with filter");
-    }
-  }
-
-  //Inserting Questions
-  async insertingQuestions(options){  
-
-    let insertquery = `INSERT INTO Questions (id, question, answer, option1, option2, option3, option4) VALUES ($1, $2, $3, $4, $5)`;
-    const insertValues = [options.question, options.answer, options.option1, options.option2, options.option3, options.option4];
+  //code to filter the blooddata
+  async filterAndSelect(filter) {
+    console.log(`call received for filter and select : req_id ${asyncLocalGet("request_id")} filter: ${filter}`);
+    const start = new Date().getMilliseconds();
     
-    console.log(insertquery);
-
-    try{
-      // await pool.query(insertquery, insertValues);
-      console.log(`Test Inserted row: ${options}`);
-    } catch(e) {
-      console.log(`error : ${JSON.stringify(e)}`);
+    try {
+      let whereClause = [];
+      let values = [];
+      // const filterSchema = this.joiSchema.fork(Object.keys(this.joiSchema.describe().keys), (schema) => schema.optional());
+      // await filterSchema.validateAsync(filter);
+      
+      let i = 1;
+      _.forEach(filter, (columnValue, columnName) => {
+        
+        if (_.isEmpty(columnName) || _.isEmpty(columnValue)) {
+          return;
+        }
+        if(columnName=="operation"){
+          return;  //continue
+        }
+        // following are numbers filters size_tem, size_hd, zeta_potential, time_point, tumor, heart, liver, spleen, lung, kidney
+        //following are ranges tumor_size, bw_np_administration
+        if(columnName=="plasma_id_pc"||columnName=="time_point"){
+          let lowerColumnValue = columnValue[0];
+          let upperColumnValue = columnValue[1];
+          values.push(lowerColumnValue);
+          values.push(upperColumnValue);
+          whereClause.push(`${columnName} >= $${i++} AND ${columnName} <= $${i++}`);
+        }     
+      });
+      let query;
+      if(filter.operation=="intersection"){
+        query = `SELECT * from ${this.tableName} WHERE ${whereClause.join(" AND ")}`;
+      }
+      else if(filter.operation=="union"){
+        query = `SELECT * from ${this.tableName} WHERE ${whereClause.join(" OR ")}`;
+      }
+      else {
+        throw new BaseError(ErrorCodes.DB.UNKNOWN, e, `row in table::${this.tableName} failed Operation not defined.`);
+      }
+      console.log(query);
+      console.log(values);
+      const res = await pool.query(query, values);
+      let rows = res.rows;
+      const rowsArr = [];
+      _.forEach(rows, (row) => rowsArr.push(_.omitBy(row, _.isNull)));
+      const end = new Date().getMilliseconds();
+      console.log(`db call received for filter and select : req_id ${asyncLocalGet("request_id")} took: ${end - start} millis`);
+      return rowsArr;
+    } catch (e) {
+      console.log(`Db call error : req_id ${asyncLocalGet("request_id")} error: ${e}`);
       if (e.name == "ValidationError") {
         throw new BaseError(ErrorCodes.DB.JOI_VALIDATION_ERROR, e, `row in table::${this.tableName} failed filter Joi validation.`);
       }

@@ -88,10 +88,28 @@ router.get("/nanoparticles", async (req, res) => {
     }
 });
 
+
+// (filter-params) nanoparticles
+router.get("/nanoparticles/filter-params", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetFilterParamsForNanoparticles();
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
 // (filter) nanoparticles         //not done
 router.post("/nanoparticles", async (req, res) => {
     try{
-        const result = await dashboardHandler.GetNanoparticles(req.query);
+        const result = await dashboardHandler.GetFilteredDataNanoparticles(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -195,11 +213,27 @@ router.get("/biodistribution", async (req, res) => {
     }
 });
 
-// (filter) biodistribution_timelines //not done
+// (filter-params) biodistribution_timelines
+router.get("/biodistribution/filter-params", async (req, res) => {
+    try{
+        const result = await dashboardHandler.GetFilterParamsForBiodistributionTimelines();
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+// (filter) biodistribution_timelines
 router.post("/biodistribution", async (req, res) => {
     try{
-
-        const result = await dashboardHandler.GetBiodistributionTimelines(req.body);
+        const result = await dashboardHandler.GetFilteredDataForBiodistributionTimelines(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -302,10 +336,10 @@ router.get("/blooddata", async (req, res) => {
     }
 });
 
-// (filter-params) blooddata_timelines //not done
-router.post("/blooddata/filter-params", async (req, res) => {
+// (filter-params) blooddata_timelines
+router.get("/blooddata/filter-params", async (req, res) => {
     try{
-        const result = await dashboardHandler.GetBloodDataTimelines(req.body);
+        const result = await dashboardHandler.GetFilterParamsForBloodData(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -319,10 +353,10 @@ router.post("/blooddata/filter-params", async (req, res) => {
     }
 });
 
-// (filter) blooddata_timelines //not done
+// (filter) blooddata_timelines
 router.post("/blooddata", async (req, res) => {
     try{
-        const result = await dashboardHandler.GetBloodDataTimelines(req.body);
+        const result = await dashboardHandler.GetFilteredDataForBloodData(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -336,10 +370,20 @@ router.post("/blooddata", async (req, res) => {
     }
 });
 
-// (insert) blooddata_timelines  //not done
+// (insert) blooddata_timelines
 router.put("/blooddata", async (req, res) => {
     try{
-        const result = await dashboardHandler.GetBloodDataTimelines(req.body);
+        const authSub = _.get(req, "auth.sub", "|");
+        let filteringRecords = await userDbAccessordbAccessor.filterAndSelect({"auth0_id":authSub});
+        let filteringRecord = filteringRecords[0];
+        if(filteringRecord.role!="admin"){
+            res.status(StatusCodes.UNAUTHORIZED).send({
+                status: StatusCodes.UNAUTHORIZED,
+                error: "Do not have the access or permission to add items",
+            });
+        }
+        
+        const result = await dashboardHandler.InsertDataForBloodData(req.body);
         res.status(result.status || StatusCodes.OK).send(result);
     }catch (err){
         console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
@@ -523,7 +567,7 @@ router.post("/nanoparticles&biodistribution", async (req, res) => {
  *         "401":
  *           $ref: '#/components/responses/401'
  */
-// (insert) nanoparticles + biodistribution_timelines    //not done check schema
+// (insert) nanoparticles + biodistribution_timelines    check schema
 router.put("/nanoparticles&biodistribution", async (req, res) => {
     try{
         //checking permision const authSub = _.get(req, "auth.sub", "|");
@@ -536,8 +580,6 @@ router.put("/nanoparticles&biodistribution", async (req, res) => {
                 error: "Do not have the access or permission to add items",
             });
         }
-        //schema to allow all required columns
-        //
 
         const result = await dashboardHandler.AddNanoparticlesAndBiodistributionTimelines(req.body);
         res.status(result.status || StatusCodes.OK).send(result);

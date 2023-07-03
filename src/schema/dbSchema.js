@@ -65,8 +65,8 @@ const biodistributionTimelinesScehma = Joi.object({
 const updateBiodistributionTimelinesSchema = biodistributionTimelinesScehma.fork(["nano_tumor_id", "time_point", "tumor", "heart", "liver", "spleen", "lung", "kidney"], (schema) => schema.optional());
 
 const bloodDataTimlinesSchema = Joi.object({
-    id: Joi.number().required(),
-    nano_tumor_id: Joi.string(),
+    id: Joi.number(),
+    nano_tumor_id: Joi.number(),
     time_point: Joi.number(),
     plasma_id_pc: Joi.number(),
 });

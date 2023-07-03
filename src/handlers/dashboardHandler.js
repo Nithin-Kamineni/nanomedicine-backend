@@ -26,6 +26,25 @@ module.exports.GetNanoparticles = async (options) =>{
     return dataRecords;
 };
 
+module.exports.GetFilterParamsForNanoparticles = async () =>{
+    // options have contents/body of post request
+    let dataRecords = await nanoparticlesdbAccessor.columnAndParameters();
+    console.log(dataRecords);
+    return dataRecords;
+};
+
+module.exports.GetFilteredDataNanoparticles = async (options) =>{
+
+    //check the parameted in the body(options)
+
+    // options have parameters of get request
+    let dataRecords = await nanoparticlesdbAccessor.filterAndSelectBasedOnParams(options);
+    // console.log(dataRecords);
+    return dataRecords;
+};
+/////////////////////////////////////////////////////////////////////
+
+
 module.exports.GetBiodistributionTimelinesColumns = async () =>{
     // options have parameters of get request
     let dataRecords = await biodistributionDbAccessor.selectColumnNames();
@@ -41,10 +60,34 @@ module.exports.GetBiodistributionTimelines = async (options) =>{
     return dataRecords;
 };
 
+// filter params for biodistribution
+module.exports.GetFilterParamsForBiodistributionTimelines = async () =>{
+    // options have contents/body of post request
+    let dataRecords = await biodistributionDbAccessor.columnAndParameters();
+    console.log(dataRecords);
+    return dataRecords;
+};
+
+// filtered data for biodistribution
+module.exports.GetFilteredDataForBiodistributionTimelines = async (options) =>{
+
+    const requestSchema = requestBodiesSchema.filterBioDistributionSchema.fork(Object.keys(requestBodiesSchema.filterBioDistributionSchema.describe().keys), (schema) => schema.optional());
+    console.log(options)
+    await requestSchema.validateAsync(options);
+
+    // options have contents/body of post request
+    let dataRecords = await biodistributionDbAccessor.filterAndSelectBasedOnParams(options);
+    console.log(dataRecords);
+    return dataRecords;
+};
+
+
+//////////////////////////////////////////////////////////////////
+
 // columns for table 3
 module.exports.GetColumnsForBloodData = async () =>{
     // options have contents/body of post request
-    let dataRecords = await bloodDataDbAccessor.columnAndParameters();
+    let dataRecords = await bloodDataDbAccessor.selectColumnNames();
     // console.log(dataRecords);
     return dataRecords;
 };
@@ -53,6 +96,40 @@ module.exports.GetColumnsForBloodData = async () =>{
 module.exports.GetBloodDataTimelines = async (options) =>{
     // options have contents/body of post request
     let dataRecords = await bloodDataDbAccessor.selectAll(options);
+    console.log(dataRecords);
+    return dataRecords;
+};
+
+// filter params
+module.exports.GetFilterParamsForBloodData = async () =>{
+    // options have contents/body of post request
+    let dataRecords = await bloodDataDbAccessor.columnAndParameters();
+    // console.log(dataRecords);
+    return dataRecords;
+};
+
+// filter blooddata
+module.exports.GetFilteredDataForBloodData = async (options) =>{
+    // options have contents/body of post request
+    
+    const requestSchema = requestBodiesSchema.filterBloodData.fork(Object.keys(requestBodiesSchema.filterBloodData.describe().keys), (schema) => schema.optional());
+    console.log(options)
+    await requestSchema.validateAsync(options);
+
+    let dataRecords = await bloodDataDbAccessor.filterAndSelectBasedOnParams(options);
+    // console.log(dataRecords);
+    return dataRecords;
+};
+
+// insert blooddata
+module.exports.InsertDataForBloodData = async (options) =>{
+    // options have contents/body of post request
+    
+    // const requestSchema = requestBodiesSchema.filterBloodData.fork(Object.keys(requestBodiesSchema.filterBloodData.describe().keys), (schema) => schema.optional());
+    // console.log(options)
+    // await requestSchema.validateAsync(options);
+    
+    let dataRecords = await bloodDataDbAccessor.insert(options);
     console.log(dataRecords);
     return dataRecords;
 };

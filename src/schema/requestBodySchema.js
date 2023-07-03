@@ -20,6 +20,27 @@ const filterNanoAndBioSchema = Joi.object({
     bw_np_administration: Joi.array().length(2).items(Joi.number()),
     animal: Joi.array().items(Joi.string()),
     reference: Joi.array().items(Joi.string()),
+    organ_cancer_type: Joi.array().items(Joi.string()),
+    tumor_model: Joi.array().items(Joi.string()),
+    sex: Joi.array().items(Joi.string()),
+    surface_charge: Joi.array().items(Joi.string()),
+    year_of_cited_record: Joi.array().length(2).items(Joi.number()),
+    tumor_weight: Joi.array().length(2).items(Joi.number()),
+    administered_dose: Joi.array().length(2).items(Joi.number()),
+    strain: Joi.array().items(Joi.string()),
+    administered_position: Joi.array().items(Joi.string()),
+    delivery_efficiency_tumor: Joi.array().length(2).items(Joi.number()),
+    delivery_efficiency_heart: Joi.array().length(2).items(Joi.number()),
+    delivery_efficiency_liver: Joi.array().length(2).items(Joi.number()),
+    delivery_efficiency_spleen: Joi.array().length(2).items(Joi.number()),
+    delivery_efficiency_lung: Joi.array().length(2).items(Joi.number()),
+    delivery_efficiency_kidney: Joi.array().length(2).items(Joi.number()),
+    heart_weight: Joi.array().length(2).items(Joi.number()),
+    liver_weight: Joi.array().length(2).items(Joi.number()),
+    spleen_weight: Joi.array().length(2).items(Joi.number()),
+    lung_weight: Joi.array().length(2).items(Joi.number()),
+    kidney_weight: Joi.array().length(2).items(Joi.number()),
+
     time_point: Joi.array().length(2).items(Joi.number()),
     tumor: Joi.array().length(2).items(Joi.number()),
     heart: Joi.array().length(2).items(Joi.number()),
@@ -27,7 +48,19 @@ const filterNanoAndBioSchema = Joi.object({
     spleen: Joi.array().length(2).items(Joi.number()),
     lung: Joi.array().length(2).items(Joi.number()),
     kidney: Joi.array().length(2).items(Joi.number()),
-    blood_type: Joi.array().items(Joi.string())
+    blood_type: Joi.array().items(Joi.string()),
+    tumor_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+    tumor_id_percentage: Joi.array().length(2).items(Joi.number()),
+    heart_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+    heart_id_percentage: Joi.array().length(2).items(Joi.number()),
+    liver_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+    liver_id_percentage: Joi.array().length(2).items(Joi.number()),
+    spleen_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+    spleen_id_percentage: Joi.array().length(2).items(Joi.number()),
+    lung_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+    lung_id_percentage: Joi.array().length(2).items(Joi.number()),
+    kidney_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+    kidney_id_percentage: Joi.array().length(2).items(Joi.number()),
 });
 
 const updateFilterNanoAndBioSchema = filterNanoAndBioSchema.fork(["nano_tumor_id", "particle_type", "core_material", "targeting_strategy", "nanomedicine_id", 
@@ -60,11 +93,45 @@ const userImageUpdateRequest = Joi.object({
     user_research_surveys: Joi.boolean(),
 });
 
+const filterBloodData = Joi.object({
+  operation: Joi.string().required(),
+  time_point: Joi.array().length(2).items(Joi.number()),
+  plasma_id_pc: Joi.array().length(2).items(Joi.number())
+});
+
+const filterBioDistributionSchema = Joi.object({
+  operation: Joi.string().required(),
+  id: Joi.number(),
+  nano_tumor_id: Joi.array().items(Joi.number()),
+  time_point: Joi.array().length(2).items(Joi.number()),
+  tumor: Joi.array().length(2).items(Joi.number()),
+  heart: Joi.array().length(2).items(Joi.number()),
+  liver: Joi.array().length(2).items(Joi.number()),
+  spleen: Joi.array().length(2).items(Joi.number()),
+  lung: Joi.array().length(2).items(Joi.number()),
+  kidney: Joi.array().length(2).items(Joi.number()),
+  tumor_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  tumor_id_percentage: Joi.array().length(2).items(Joi.number()),
+  heart_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  heart_id_percentage: Joi.array().length(2).items(Joi.number()),
+  liver_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  tumor_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  liver_id_percentage: Joi.array().length(2).items(Joi.number()),
+  spleen_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  spleen_id_percentage: Joi.array().length(2).items(Joi.number()),
+  lung_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  lung_id_percentage: Joi.array().length(2).items(Joi.number()),
+  kidney_id_percentage_g: Joi.array().length(2).items(Joi.number()),
+  kidney_id_percentage: Joi.array().length(2).items(Joi.number())
+});
+
 
 module.exports = {
     filterNanoAndBioSchema,
     updateFilterNanoAndBioSchema,
     userDetailsUpdateRequest,
     userImageUpdateRequest,
-    userSubscriptionUpdateRequest
+    userSubscriptionUpdateRequest,
+    filterBloodData,
+    filterBioDistributionSchema
 };
