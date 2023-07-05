@@ -21,7 +21,7 @@ const config = {
 };
 
 //CORS allowed url's
-const whiteList = [process.env.UI_URL,process.env.MOBILE_APP_URL,process.env.BASE_URL]
+const whiteList = [process.env.UI_URL,process.env.MOBILE_APP_URL,process.env.BASE_URL, process.env.BASE_URL_2]
 const corsOptions = {
   origin: (origin, callback) => {
     if(whiteList.indexOf(origin)!==-1 || !origin){   //after development remove || !origin
@@ -56,8 +56,8 @@ const allowUnauthenticatedUrls = (req, res, next) => {
   } else {
     // Continue with the authentication process
     // app.use(checkJwt);
-    checkJwt(req, res, next);
-    // next();
+    // checkJwt(req, res, next);
+    next();
     
   }
 };
@@ -67,6 +67,7 @@ app.use(allowUnauthenticatedUrls);
 
 const dashboardRoutes = require('./src/routes/v1/dashboardRoute');
 const userRoutes = require('./src/routes/v1/userRoute');
+const visualizationRoutes = require('./src/routes/v1/visualizationRoute');
 const errorHandler = require("./src/middleware/errorHandler");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express")
@@ -77,6 +78,7 @@ const options = require("./src/swagger");
 app.use("/api/test/", require("./src/routes/testRoute"));
 app.use('/api/v1/dashboard',dashboardRoutes);
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/visualization', visualizationRoutes);
 
 app.use('/Assets', express.static('Assets'));
 

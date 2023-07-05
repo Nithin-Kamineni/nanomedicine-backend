@@ -202,3 +202,11 @@
 20230703	03:20:38	28596208-4994-412e-94b7-37e73aaeee3e	UnauthorizedError: No authorization token was found
 20230703	03:21:38	9e54efe5-094e-40a0-8358-f356877611d2	UnauthorizedError: No authorization token was found
 20230703	14:57:06	dbaa086f-2b9e-42ed-8590-cbf421444949	UnauthorizedError: jwt expired
+20230703	17:53:09	91f1527c-76d5-420d-9de5-13dc9007df0e	UnauthorizedError: jwt expired
+20230703	18:30:45	091f5adb-a16d-42f9-bf90-974917ac39b4	SyntaxError: Unexpected token } in JSON at position 67
+20230703	20:26:44	785c0d2b-fde1-4864-9538-0f58aa59057e	UnauthorizedError: No authorization token was found
+20230704	20:07:00	2cf233d7-9818-4ec5-b9bc-146449892871	SyntaxError: Unexpected token } in JSON at position 3995
+20230704	20:08:05	a19accca-77f6-47ab-8d68-2c101864e995	SyntaxError: Unexpected token } in JSON at position 3995
+20230705	01:09:23	1ee73cb3-924c-4102-b035-2cdcf76ebc73	SyntaxError: Unexpected token { in JSON at position 466
+20230705	01:09:49	15a34991-0762-4426-ac1c-44e9198a15ff	SyntaxError: Unexpected token { in JSON at position 466
+20230705	01:10:08	ef1ab2c2-3d56-46e7-93f5-c1b44d6459e0	SyntaxError: Unexpected token { in JSON at position 466

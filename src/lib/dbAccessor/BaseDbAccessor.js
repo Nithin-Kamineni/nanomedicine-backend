@@ -250,7 +250,7 @@ class BaseDbAccessor {
       // await filterSchema.validateAsync(filter);
 
       
-      const query = `SELECT column_name,data_type FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
+      const query = `SELECT column_name,data_type FROM information_schema.columns WHERE table_name = '${this.tableName}' ORDER BY ordinal_position;`;
       console.log(query);
       const res = await pool.query(query);
       let rows = res.rows;
@@ -280,6 +280,7 @@ class BaseDbAccessor {
     let paramList;
     let rows;
     let columnName;
+    let NullValueCount;
     console.log(columnNamesAndTypes);
 
     const output = {};
@@ -295,6 +296,15 @@ class BaseDbAccessor {
         if(rows[0]["min"]==-Infinity){
           rows[0]["min"]="-Infinity"
         }
+
+        query = `select ${columnName} from ${this.tableName} WHERE ${columnName} IS NULL`;
+        res = await pool.query(query);
+        NullValueCount = res.rows;
+        if(NullValueCount.length>0){
+          rows[0].includeNull = true;
+        } else{
+          rows[0].includeNull = false;
+        }
         output[columnName] = rows[0];
       }
       else if(columnNamesAndTypes[i].data_type=='integer'){
@@ -305,17 +315,36 @@ class BaseDbAccessor {
         res = await pool.query(query);
         rows = res.rows;
         paramList = rows.map(data => data[columnName]);
-        output[columnName] = paramList;
+        //output[columnName] = paramList.filter((element) => element !== null);
+        output[columnName] = {"value" :paramList.filter((element) => element !== null)};
+
+        query = `select ${columnName} from ${this.tableName} WHERE ${columnName} IS NULL`;
+        res = await pool.query(query);
+        NullValueCount = res.rows;
+        if(NullValueCount.length>0){
+          output[columnName].includeNull = true;
+        } else{
+          output[columnName].includeNull = false;
+        }
       }
       else if(columnNamesAndTypes[i].data_type=='numrange'){
         query = `select min(LOWER(${columnName})),max(UPPER(${columnName})) from ${this.tableName}`;
         res = await pool.query(query);
         rows = res.rows;
         if(rows[0]["max"]==Infinity){
-          rows[0]["max"]="Infinity"
+          rows[0]["max"]="1000"
         }
         if(rows[0]["min"]==-Infinity){
-          rows[0]["min"]="-Infinity"
+          rows[0]["min"]="-1000"
+        }
+
+        query = `select ${columnName} from ${this.tableName} WHERE ${columnName} IS NULL`;
+        res = await pool.query(query);
+        NullValueCount = res.rows;
+        if(NullValueCount.length>0){
+          rows[0].includeNull = true;
+        } else{
+          rows[0].includeNull = false;
         }
         output[columnName] = rows[0];
       }
@@ -324,10 +353,19 @@ class BaseDbAccessor {
         res = await pool.query(query);
         rows = res.rows;
         if(rows[0]["max"]==Infinity){
-          rows[0]["max"]="Infinity"
+          rows[0]["max"]="1000"
         }
         if(rows[0]["min"]==-Infinity){
-          rows[0]["min"]="-Infinity"
+          rows[0]["min"]="-1000"
+        }
+
+        query = `select ${columnName} from ${this.tableName} WHERE ${columnName} IS NULL`;
+        res = await pool.query(query);
+        NullValueCount = res.rows;
+        if(NullValueCount.length>0){
+          rows[0].includeNull = true;
+        } else{
+          rows[0].includeNull = false;
         }
         output[columnName] = rows[0];
       }
@@ -346,7 +384,9 @@ class BaseDbAccessor {
     let query = `SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${this.tableName}'`;
     let res = await pool.query(query);
     let columnNamesAndTypes = res.rows;
-    
+    let lowerColumnValue;
+    let upperColumnValue;
+    let includeNull;
     const columnTypesMap = {};
     columnNamesAndTypes.forEach(item => {
       const column_name = item.column_name;
@@ -372,19 +412,53 @@ class BaseDbAccessor {
           return;  //continue
         }
         if(columnTypesMap[columnName]=="double precision"||columnTypesMap[columnName]=="numeric"||columnName=="year_of_cited_record"){
-          let lowerColumnValue = columnValue[0];
-          let upperColumnValue = columnValue[1];
+          includeNull = false;
+          lowerColumnValue = columnValue.min;
+          upperColumnValue = columnValue.max;
+          if('includeNull' in columnValue){
+            includeNull = columnValue.includeNull
+          }
           values.push(lowerColumnValue);
           values.push(upperColumnValue);
-          whereClause.push(`${columnName} >= $${i++} AND ${columnName} <= $${i++}`);
+          if(includeNull){
+            whereClause.push(`((${columnName} >= $${i++} AND ${columnName} <= $${i++}) OR (${columnName} IS NULL))`);
+          }
+          else if(!includeNull){
+            whereClause.push(`(${columnName} >= $${i++} AND ${columnName} <= $${i++})`);
+          }
         }
         else if(columnTypesMap[columnName]=="numrange"){
-          values.push(`[${columnValue.toString()}]`);
-          whereClause.push(`${columnName} && $${i++}`);
+          includeNull = false;
+          lowerColumnValue = columnValue.min;
+          upperColumnValue = columnValue.max;
+          if('includeNull' in columnValue){
+            includeNull = columnValue.includeNull
+          }
+
+          values.push(`[${lowerColumnValue},${upperColumnValue}]`);
+          if(includeNull){
+            whereClause.push(`(${columnName} && $${i++})`);  
+          }
+          else if(!includeNull){
+            whereClause.push(`((${columnName} && $${i++}) OR (${columnName} IS NULL))`);
+          }
         }
         else if(columnTypesMap[columnName]=="character varying"){
-          values.push(...columnValue);
-          whereClause.push(`${columnName} IN (${columnValue.map(name => `$${i++}`).join(', ')})`); 
+          includeNull = false;
+          if('includeNull' in columnValue){
+            includeNull = columnValue.includeNull
+          }
+          columnValue.value = columnValue.value.filter((value) => value !== null);
+          values.push(...columnValue.value);
+
+          if(includeNull){
+            console.log('here')
+            whereClause.push(`(${columnName} IN (${columnValue.value.map(name => `$${i++}`).join(', ')}) OR (${columnName} IS NULL))`); 
+          }
+          else if(!includeNull){
+            whereClause.push(`(${columnName} IN (${columnValue.value.map(name => `$${i++}`).join(', ')}))`); 
+          }
+          
         }
         else if(columnTypesMap[columnName]=="integer" && columnName!="year_of_cited_record"){
           return; //continue

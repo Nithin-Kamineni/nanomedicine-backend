@@ -13,13 +13,25 @@ const options = {
       },
       servers: [
         {
-          url: "http://localhost:8080/api/v1",
+          url: "http://localhost:8081/api/v1",
           description: 'Development server'
         },
       ],
       components: {
         schemas: {
-            Book: {
+            User: convert(dbSchema.userSchema),
+            userDetailsUpdateRequest: convert(requestSchema.userDetailsUpdateRequest),
+            userImageUpdateRequest: convert(requestSchema.userImageUpdateRequest),
+            userSubscriptionUpdateRequest: convert(requestSchema.userSubscriptionUpdateRequest),
+            nanoparticles: convert(dbSchema.nanoparticlesSchema),
+            nanoparticles_filter: convert(requestSchema.filterNanoparticlesSchema),
+            biodistribution_filter: convert(requestSchema.filterBioDistributionSchema),
+            blooddata_filter: convert(requestSchema.filterBloodData),
+            nanoparticles_biodistribution_filter: convert(requestSchema.filterNanoAndBioSchema),
+            nano_tumor_id_list: convert(requestSchema.nano_tumor_id_list),
+            // testSchema: convert(requestSchema.testSchema),
+            nanoparticles_biodistributionTimelinesSchema: convert(dbSchema.nanoparticlesAndBiodistributionTimelinesSchema),
+            TestObject: {
                 type: 'object',
                 required: ['title', 'author', 'price', 'year_published'],
                 properties: {
@@ -41,13 +53,6 @@ const options = {
                     }
                 },
             },
-            User: convert(dbSchema.userSchema),
-            userDetailsUpdateRequest: convert(requestSchema.userDetailsUpdateRequest),
-            userImageUpdateRequest: convert(requestSchema.userImageUpdateRequest),
-            userSubscriptionUpdateRequest: convert(requestSchema.userSubscriptionUpdateRequest),
-            nanoparticles: convert(dbSchema.nanoparticlesSchema),
-            nanoparticles_biodistribution_filter: convert(requestSchema.filterNanoAndBioSchema),
-            nanoparticles_biodistributionTimelinesSchema: convert(dbSchema.nanoparticlesAndBiodistributionTimelinesSchema)
         },
         responses : {
             400: {

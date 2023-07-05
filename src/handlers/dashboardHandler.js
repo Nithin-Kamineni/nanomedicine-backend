@@ -36,6 +36,10 @@ module.exports.GetFilterParamsForNanoparticles = async () =>{
 module.exports.GetFilteredDataNanoparticles = async (options) =>{
 
     //check the parameted in the body(options)
+    
+    const requestSchema = requestBodiesSchema.filterNanoparticlesSchema.fork(Object.keys(requestBodiesSchema.filterNanoparticlesSchema.describe().keys), (schema) => schema.optional());
+    console.log(options)
+    await requestSchema.validateAsync(options);
 
     // options have parameters of get request
     let dataRecords = await nanoparticlesdbAccessor.filterAndSelectBasedOnParams(options);
@@ -168,10 +172,10 @@ module.exports.GetNanoparticlesAndBiodistributionTimelines = async (options) =>{
 
 
 // filter parameters
-module.exports.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines = async (options) =>{
+module.exports.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines = async () =>{
     
     // options have contents/body of post request
-    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterParamsForNanoAndBio(options);
+    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.columnAndParameters();
     // console.log(dataRecords);
     return dataRecords;
 };
@@ -184,10 +188,10 @@ module.exports.GetFilteredNanoparticlesAndBiodistributionTimelines = async (opti
     await requestSchema.validateAsync(options);
     
     // options have contents/body of post request
-    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect(options);
+    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.filterAndSelectBasedOnParams(options);
     console.log(dataRecords);
     return dataRecords;
-};
+};     
 
 // sprint 2
 module.exports.GetNanoparticlesBiodistributionTimelinesAndBloodDataTimelines = async (options) =>{
