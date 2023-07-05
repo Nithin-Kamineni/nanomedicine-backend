@@ -1,6 +1,6 @@
 FROM node:14 AS Production
 
-ENV NODE_ENV=Production
+ENV NODE_ENV=production
 
 WORKDIR /usr/src/server
 
