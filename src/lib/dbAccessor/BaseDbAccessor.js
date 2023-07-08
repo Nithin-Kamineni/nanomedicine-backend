@@ -281,7 +281,7 @@ class BaseDbAccessor {
     let rows;
     let columnName;
     let NullValueCount;
-    console.log(columnNamesAndTypes);
+    // console.log(columnNamesAndTypes);
 
     const output = {};
     for(let i=0;i<columnNamesAndTypes.length;i++){
@@ -307,7 +307,7 @@ class BaseDbAccessor {
         }
         output[columnName] = rows[0];
       }
-      else if(columnNamesAndTypes[i].data_type=='integer'){
+      else if(columnNamesAndTypes[i].data_type=='integer'||columnNamesAndTypes[i].data_type=='bigint'){
         continue;
       }
       else if(columnNamesAndTypes[i].data_type=='character varying'){
