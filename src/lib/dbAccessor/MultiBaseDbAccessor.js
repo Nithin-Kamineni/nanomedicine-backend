@@ -33,7 +33,7 @@ class MultiBaseDbAccessor extends BaseDbAccessor {
   async JoinTwoTables(joiningColumn) {
     try {
       await pool.query(`DROP VIEW IF EXISTS ${this.viewName}`)
-      await pool.query(`CREATE VIEW ${this.viewName} AS SELECT t1.*, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.TIME_POINT}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.TUMOR}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.HEART}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.LIVER}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.SPLEEN}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.LUNG}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.KIDNEY}, 
+      await pool.query(`CREATE VIEW ${this.viewName} AS SELECT ROW_NUMBER() OVER () AS row_number, t1.*, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.TIME_POINT}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.TUMOR}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.HEART}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.LIVER}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.SPLEEN}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.LUNG}, t2.${dbConstants.COLUMNS.BIODISTRIBUTION_TIMELINES.KIDNEY}, 
       t2.tumor_id_percentage_g, t2.tumor_id_percentage, t2.heart_id_percentage_g, t2.heart_id_percentage, t2.liver_id_percentage_g, t2.liver_id_percentage, t2.spleen_id_percentage_g, t2.spleen_id_percentage, t2.lung_id_percentage_g, t2.lung_id_percentage, t2.kidney_id_percentage_g, t2.kidney_id_percentage
 
       FROM ${this.tableName1} t1 JOIN ${this.tableName2} t2 ON t1.${joiningColumn}=t2.${joiningColumn};`);
