@@ -166,7 +166,7 @@ module.exports.AddNanoparticlesAndBiodistributionTimelines = async (options) =>{
 module.exports.GetNanoparticlesAndBiodistributionTimelines = async (options) =>{
     // options have contents/body of post request
     let dataRecords = await nanoparticlesAndbloodDataDbAccessor.selectAll(options);
-    console.log(dataRecords);
+    // console.log("-------------");
     return dataRecords;
 };
 
