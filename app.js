@@ -21,7 +21,7 @@ const config = {
 };
 
 //CORS allowed url's
-const whiteList = [process.env.UI_URL,process.env.BASE_URL, process.env.UI_URL_PROXY, process.env.DNS_URL]
+const whiteList = [process.env.UI_URL,process.env.BASE_URL, process.env.UI_URL_PROXY, process.env.DNS_URL, process.env.ngrock_URL]
 const corsOptions = {
   origin: (origin, callback) => {
     if(whiteList.indexOf(origin)!==-1 || !origin){   //after development remove || !origin

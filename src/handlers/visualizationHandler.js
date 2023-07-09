@@ -24,15 +24,48 @@ module.exports.GetGraphData = async (options) =>{
         options.column
       ];
     dataRecords = _.map(dataRecords, obj => {
-        const pickedObj = _.pick(obj, pickedKeys);
-        if (_.isEqual(_.keys(pickedObj), pickedKeys)) {
-            return pickedObj;
-          }
-        }); 
-
+      const pickedObj = _.pick(obj, pickedKeys);
+      if (_.isEqual(_.keys(pickedObj), pickedKeys)) {
+          return pickedObj;
+        }
+      }); 
     dataRecords = dataRecords.filter(value => value !== undefined);
-    console.log(dataRecords);
-    return dataRecords;
+
+    let nano_tumor_ids = [];
+    let delivery_efficiencies = [];
+    let column_values = [];
+    dataRecords.forEach(item => {
+      nano_tumor_ids.push(item['nano_tumor_id']);
+      delivery_efficiencies.push(item[options.delivery_efficiency]);
+      column_values.push(item[options.column]);
+    });
+
+    let columns_DE = {};
+    // console.log("------------------------------------")
+    for(let i=0;i<delivery_efficiencies.length;i++){
+      // console.log(column_values[i]);
+      if(!columns_DE.hasOwnProperty(column_values[i].toString())){
+        columns_DE[column_values[i].toString()]=[]
+      }
+      columns_DE[column_values[i].toString()].push(delivery_efficiencies[i])
+    }
+
+    for(let column in columns_DE){
+      let sortedNumbers = columns_DE[column].sort();
+      let length = sortedNumbers.length;
+      let start = sortedNumbers[0];
+      let index25 = Math.floor(length * 0.25);
+      let index50 = Math.floor(length * 0.5);
+      let index75 = Math.floor(length * 0.75);
+      let end = sortedNumbers[length - 1];
+      let quartile25 = sortedNumbers[index25];
+      let median = sortedNumbers[index50];
+      let quartile75 = sortedNumbers[index75];
+      columns_DE[column]=[start,quartile25,median,quartile75,end];
+    }
+
+
+    return {columns_Delivary_Efficiency:columns_DE, nano_tumor_ids:nano_tumor_ids};
 };
 
 module.exports.GetFilterParamsForGraphs = async () =>{
@@ -46,12 +79,13 @@ module.exports.GetFilterParamsForGraphs = async () =>{
 module.exports.GetFilteredDataForgraphs = async (options) =>{
 
     //check the parameted in the body(options)
+    let delivery_efficiency = options.delivery_efficiency;
+    let column = options.column;
     const pickedKeys = [
-        'nano_tumor_id',
-        options.delivery_efficiency,
-        options.column
-      ];
-
+      'nano_tumor_id',
+      options.delivery_efficiency,
+      options.column
+    ];
     options = _.omit(options, ['delivery_efficiency', 'column']);
 
     const requestSchema = requestBodiesSchema.filterNanoparticlesSchema.fork(Object.keys(requestBodiesSchema.filterNanoparticlesSchema.describe().keys), (schema) => schema.optional());
@@ -69,8 +103,43 @@ module.exports.GetFilteredDataForgraphs = async (options) =>{
         }); 
 
     dataRecords = dataRecords.filter(value => value !== undefined);
-    console.log(dataRecords);
-    return dataRecords;
+    
+    let nano_tumor_ids = [];
+    let delivery_efficiencies = [];
+    let column_values = [];
+    dataRecords.forEach(item => {
+      nano_tumor_ids.push(item['nano_tumor_id']);
+      delivery_efficiencies.push(item[delivery_efficiency]);
+      column_values.push(item[column]);
+    });
+
+    let columns_DE = {};
+    // console.log("------------------------------------")
+    for(let i=0;i<delivery_efficiencies.length;i++){
+      // console.log(column_values[i]);
+      if(!columns_DE.hasOwnProperty(column_values[i].toString())){
+        columns_DE[column_values[i].toString()]=[]
+      }
+      columns_DE[column_values[i].toString()].push(delivery_efficiencies[i])
+    }
+
+    for(let column in columns_DE){
+      let sortedNumbers = columns_DE[column].sort();
+      let length = sortedNumbers.length;
+      let start = sortedNumbers[0];
+      let index25 = Math.floor(length * 0.25);
+      let index50 = Math.floor(length * 0.5);
+      let index75 = Math.floor(length * 0.75);
+      let end = sortedNumbers[length - 1];
+      let quartile25 = sortedNumbers[index25];
+      let median = sortedNumbers[index50];
+      let quartile75 = sortedNumbers[index75];
+      columns_DE[column]=[start,quartile25,median,quartile75,end];
+    }
+
+
+    return {columns_Delivary_Efficiency:columns_DE, nano_tumor_ids:nano_tumor_ids};
+    
 };
 
 module.exports.GetDataForDownload = async (options) =>{
