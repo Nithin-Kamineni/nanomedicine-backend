@@ -323,3 +323,4 @@
 20230710	13:00:16	0443abb3-dd04-4170-bd45-1af42ede5cca	GET	undefined	/api/v1/visualization/delivery_efficiency_tumor/particle_type
 20230710	13:02:18	b4f01898-ee38-4568-bda5-03c4f99884de	GET	undefined	/api/v1/visualization/delivery_efficiency_tumor/particle_type
 20230710	13:04:50	70b14823-6e05-47e8-b282-1fa6aae0dac0	GET	undefined	/api/v1/visualization/delivery_efficiency_tumor/particle_type
+20230710	15:05:40	2576ee89-c76a-4842-8ea5-11a9c40b66eb	GET	undefined	/api/v1/dashboard/nanoparticles/columns
