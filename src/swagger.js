@@ -13,9 +13,17 @@ const options = {
       },
       servers: [
         {
-          url: `${process.env.BASE_URL}/api/v1`,
-          description: 'Development server'
+            url: `${process.env.BASE_URL}/api/v1`,
+            description: 'Development server'
         },
+        {
+            url: `${process.env.DNS_URL_2}/api/v1`,
+            description: 'Production server'
+        },
+        {
+            url: `${process.env.DNS_URL}/api/v1`,
+            description: 'Production SSL server'
+        }
       ],
       components: {
         schemas: {

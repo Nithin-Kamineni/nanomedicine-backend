@@ -93,17 +93,20 @@ module.exports.GetGraphData = async (options) =>{
     }
 
     for(let column in columns_DE){
-      let sortedNumbers = columns_DE[column].sort();
+      let sortedNumbers = columns_DE[column].sort((a, b) => a - b);
       let length = sortedNumbers.length;
       let start = sortedNumbers[0];
       let index25 = Math.floor(length * 0.25);
       let index50 = Math.floor(length * 0.5);
       let index75 = Math.floor(length * 0.75);
-      let end = sortedNumbers[length - 1];
+      let index97 = Math.floor(length * 0.97);
       let quartile25 = sortedNumbers[index25];
       let median = sortedNumbers[index50];
       let quartile75 = sortedNumbers[index75];
-      columns_DE[column]=[start,quartile25,median,quartile75,end];
+      let quartile97 = sortedNumbers[index97];
+      // console.log(column);
+      // console.log(sortedNumbers[117],sortedNumbers[118],sortedNumbers[119],sortedNumbers[120],sortedNumbers[121]);
+      columns_DE[column]=[start,quartile25,median,quartile75,quartile97];
     }
 
 
