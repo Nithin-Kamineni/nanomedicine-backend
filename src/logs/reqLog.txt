@@ -305,3 +305,4 @@
 20230709	23:53:23	de2f4f46-2ccb-4c56-8346-243cbc4e6c8c	GET	undefined	/api/v1/visualization/delivery_efficiency_tumor/year_of_cited_record
 20230709	23:53:33	ed4d782e-46df-4537-980e-eefd0bd183c2	POST	http://localhost:8080	/api/v1/visualization/delivery_efficiency_tumor/year_of_cited_record
 20230709	23:53:49	10fdd9fc-5ca0-4aa7-9554-70bf7990118d	POST	http://localhost:8080	/api/v1/visualization/delivery_efficiency_tumor/organ_cancer_type
+20230709	23:55:46	8ac009c9-58ab-4eb4-aaa7-8e753f343ddb	GET	undefined	/api/v1/visualization/delivery_efficiency_tumor/particle_type
