@@ -38,7 +38,7 @@ const corsOptions = {
 app.use(logger)
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(initLocalStore);
 
 
