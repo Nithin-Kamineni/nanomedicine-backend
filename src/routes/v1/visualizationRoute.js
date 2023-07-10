@@ -488,6 +488,206 @@ router.get("/:delivery_efficiency/:column", async (req, res) => {
  *         "401":
  *           $ref: '#/components/responses/401'
  */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/particle_type:
+ *     post:
+ *       summary: Get details of particle_type and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/targeting_strategy:
+ *     post:
+ *       summary: Get details of targeting_strategy and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/surface_charge:
+ *     post:
+ *       summary: Get details of surface_charge and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/inorganic_material:
+ *     post:
+ *       summary: Get details of inorganic_material and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/organic_material:
+ *     post:
+ *       summary: Get details of organic_material and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/shape:
+ *     post:
+ *       summary: Get details of shape and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/tumor_model:
+ *     post:
+ *       summary: Get details of tumor_model and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/organ_cancer_type:
+ *     post:
+ *       summary: Get details of organ_cancer_type and delivery_efficiency_tumor (filter)
+ *       tags: [Visualization]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_filter'
+ *       responses:
+ *         "200":
+ *           description: The details of nanoparticles based on filter parameters
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
 // (filter) graph display with filtered data         //not done
 router.post("/:delivery_efficiency/:column", async (req, res) => {
     try{

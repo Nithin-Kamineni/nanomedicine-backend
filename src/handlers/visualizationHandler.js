@@ -61,7 +61,7 @@ module.exports.GetGraphData = async (options) =>{
     let regex;
     let columns_DE = {};
     let flagHit=true;
-    console.log(/\bIron Oxide\b/i.test("This contains Iron Oxide"))
+    // console.log(/\bIron Oxide\b/i.test("This contains Iron Oxide"))
     if(paramAllowMaterialMap){
       for(let i=0;i<delivery_efficiencies.length;i++){
         flagHit=true;
@@ -121,21 +121,51 @@ module.exports.GetFilterParamsForGraphs = async () =>{
 module.exports.GetFilteredDataForgraphs = async (options) =>{
 
     //check the parameted in the body(options)
-    let delivery_efficiency = options.delivery_efficiency;
-    let column = options.column;
-    const pickedKeys = [
-      'nano_tumor_id',
-      options.delivery_efficiency,
-      options.column
-    ];
-    options = _.omit(options, ['delivery_efficiency', 'column']);
+    let delivery_efficiency = options.delivery_efficiency; //update down
+    let column = options.column;  //update down
+    let searchMap = {inorganic_material:"INM", organic_material:"ONM"};
+    let AllParamAllowMaterialMap = {inorganic_material: ['Gold','Iron Oxide','Silica'], organic_material: ['Polymeric','Dendrimer','Hydrogel','Liposome']}
+    let paramAllowMaterialMap=false;
+    let dataRecords;
+    let pickedKeys;
+    if(options.column=='inorganic_material' || options.column=='organic_material'){
+      options = _.omit(options, ['delivery_efficiency', 'column']);
+      const requestSchema = requestBodiesSchema.filterNanoparticlesSchema.fork(Object.keys(requestBodiesSchema.filterNanoparticlesSchema.describe().keys), (schema) => schema.optional());
+      console.log(options)
+      await requestSchema.validateAsync(options);
 
-    const requestSchema = requestBodiesSchema.filterNanoparticlesSchema.fork(Object.keys(requestBodiesSchema.filterNanoparticlesSchema.describe().keys), (schema) => schema.optional());
-    console.log(options)
-    await requestSchema.validateAsync(options);
+      // options have parameters of get request
+      options.particle_type = {};
+      options.particle_type.value=[searchMap[column]];
 
-    // options have parameters of get request
-    let dataRecords = await nanoparticlesdbAccessor.filterAndSelectBasedOnParams(options);
+      dataRecords = await nanoparticlesdbAccessor.filterAndSelectBasedOnParams(options);
+
+      paramAllowMaterialMap = AllParamAllowMaterialMap[column];
+      column='core_material';
+      pickedKeys = [
+          'nano_tumor_id',
+          delivery_efficiency,
+          column
+        ];
+    } 
+    else{
+      // options have parameters of get request
+      options = _.omit(options, ['delivery_efficiency', 'column']);
+
+      const requestSchema = requestBodiesSchema.filterNanoparticlesSchema.fork(Object.keys(requestBodiesSchema.filterNanoparticlesSchema.describe().keys), (schema) => schema.optional());
+      console.log(options)
+      await requestSchema.validateAsync(options);
+  
+      // options have parameters of get request
+      dataRecords = await nanoparticlesdbAccessor.filterAndSelectBasedOnParams(options);
+      pickedKeys = [
+        'nano_tumor_id',
+        delivery_efficiency,
+        column
+      ];
+    }
+
+    
 
     dataRecords = _.map(dataRecords, obj => {
         const pickedObj = _.pick(obj, pickedKeys);
@@ -155,14 +185,38 @@ module.exports.GetFilteredDataForgraphs = async (options) =>{
       column_values.push(item[column]);
     });
 
+    let regex;
     let columns_DE = {};
+    let flagHit=true;
     // console.log("------------------------------------")
-    for(let i=0;i<delivery_efficiencies.length;i++){
-      // console.log(column_values[i]);
-      if(!columns_DE.hasOwnProperty(column_values[i].toString())){
-        columns_DE[column_values[i].toString()]=[]
+    if(paramAllowMaterialMap){
+      for(let i=0;i<delivery_efficiencies.length;i++){
+        flagHit=true;
+        for(let j=0;j<paramAllowMaterialMap.length;j++){
+          regex = new RegExp('\\b' + paramAllowMaterialMap[j].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+          if(regex.test(column_values[i])){
+            flagHit=false
+            if(!columns_DE.hasOwnProperty(paramAllowMaterialMap[j])){
+              columns_DE[paramAllowMaterialMap[j]]=[];
+            }
+            columns_DE[paramAllowMaterialMap[j]].push(delivery_efficiencies[i]);
+          }
+        }
+        if(flagHit) {
+          if(!columns_DE.hasOwnProperty('Other')){
+            columns_DE['Other']=[]
+          }
+          columns_DE['Other'].push(delivery_efficiencies[i])
+        }
       }
-      columns_DE[column_values[i].toString()].push(delivery_efficiencies[i])
+    } else {
+      for(let i=0;i<delivery_efficiencies.length;i++){
+        // console.log(column_values[i]);
+        if(!columns_DE.hasOwnProperty(column_values[i].toString())){
+          columns_DE[column_values[i].toString()]=[]
+        }
+        columns_DE[column_values[i].toString()].push(delivery_efficiencies[i])
+      }
     }
 
     for(let column in columns_DE){
