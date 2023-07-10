@@ -17,7 +17,7 @@ const options = {
             description: 'Development server'
         },
         {
-            url: `${process.env.DNS_URL_2}/api/v1`,
+            url: `${process.env.DNS_SWAGGER}/api/v1`,
             description: 'Production server'
         },
         {
