@@ -201,6 +201,44 @@ router.get("/:delivery_efficiency/", async (req, res) => {
 
 /** 
  * @swagger
+ *   /visualization/delivery_efficiency_tumor/inorganic_material:
+ *     get:
+ *       summary: Get details of the inorganic_material and delivery_efficiency_tumor
+ *       tags: [Visualization]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
+ *   /visualization/delivery_efficiency_tumor/organic_material:
+ *     get:
+ *       summary: Get details of the organic_material and delivery_efficiency_tumor
+ *       tags: [Visualization]
+ *       responses:
+ *         "200":
+ *           description: The details of user based on token
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+/** 
+ * @swagger
  *   /visualization/delivery_efficiency_tumor/shape:
  *     get:
  *       summary: Get details of the shape and delivery_efficiency_tumor
@@ -407,6 +445,8 @@ router.get("/:delivery_efficiency/", async (req, res) => {
  *         "401":
  *           $ref: '#/components/responses/401'
  */
+
+
 // (get All) nanoparticles
 router.get("/:delivery_efficiency/:column", async (req, res) => {
     try{
