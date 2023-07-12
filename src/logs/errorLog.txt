@@ -8,3 +8,4 @@
 20230709	16:55:12	58ebdc44-d9c8-4e05-9034-f70797eba8f3	Error: Not allowed by CORS
 20230709	16:55:12	8f17919a-f329-4faa-9fe0-5544b763c8c3	Error: Not allowed by CORS
 20230709	16:55:12	cb4a3586-28df-4431-8cb9-2d22f9b8114d	Error: Not allowed by CORS
+20230712	15:17:31	01e9c994-d274-4a9d-962e-93a9f9412b86	SyntaxError: Unexpected number in JSON at position 532

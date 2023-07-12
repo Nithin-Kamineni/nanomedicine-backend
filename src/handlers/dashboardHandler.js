@@ -9,6 +9,7 @@ const bloodDataDbAccessor = new BloodDataTimelinesDbAccessor();
 const NanoparticlesAndBBloodDataTimelinesDbAccessor = require("../dbAccessor/NanoparticlesAndBiodistributionDbAccessor");
 const nanoparticlesAndbloodDataDbAccessor = new NanoparticlesAndBBloodDataTimelinesDbAccessor();
 
+const dbConstants = require("../lib/dbAccessor/constants.json");
 const requestBodiesSchema = require('../schema/requestBodySchema')
 
 module.exports.GetNanoparticlesColumns = async () =>{
@@ -149,16 +150,23 @@ module.exports.GetColumnsForNanoparticlesAndBiodistributionTimelines = async () 
 // insert for table 1 and 2
 module.exports.AddNanoparticlesAndBiodistributionTimelines = async (options) =>{
     // options have contents/body of post request
-
+    let dataRecords1={}
     let nanoparticlesRecord = {"nano_tumor_id":options.nano_tumor_id, "particle_type":options.particle_type, "core_material":options.core_material, "targeting_strategy":options.targeting_strategy,
                                 "nanomedicine_id":options.nanomedicine_id, "shape":options.shape, "pdi":options.pdi, "size_tem":options.size_tem, "size_hd":options.size_hd, "zeta_potential":options.zeta_potential,
-                                "tumor_cell":options.tumor_cell, "tumor_size":options.tumor_size, "np_administration":options.np_administration, "bw_np_administration":options.bw_np_administration,
+                                "tumor_cell":options.tumor_cell, "tumor_size": options.tumor_size, "np_administration":options.np_administration, "bw_np_administration":options.bw_np_administration,
                                 "animal":options.animal, "reference":options.reference, "blood_type":options.blood_type, "reference_hyperlink":options.reference_hyperlink};
-    let dataRecords1 = await nanoparticlesdbAccessor.insert(nanoparticlesRecord);
+
+    let tumor_records = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect({nano_tumor_id:`${options.nano_tumor_id}`, operation:"intersection"});
+    
+    if(tumor_records.length<1){
+        dataRecords1 = await nanoparticlesdbAccessor.insert(nanoparticlesRecord);
+    }
     
     let biodistributionRecord = {"nano_tumor_id":options.nano_tumor_id, "time_point":options.time_point, "tumor":options.tumor, "heart":options.heart, 
                                 "liver":options.liver, "spleen":options.spleen, "lung":options.lung, "kidney":options.kidney};
     let dataRecords2 = await biodistributionDbAccessor.insert(biodistributionRecord);
+
+    nanoparticlesAndbloodDataDbAccessor.JoinTwoTables(dbConstants.COLUMNS.NANOPARTICLES.NANO_TUMOR_ID);
     return {"nanoparticles": dataRecords1, "biodistribution": dataRecords2};
 };
 
@@ -170,6 +178,41 @@ module.exports.GetNanoparticlesAndBiodistributionTimelines = async (options) =>{
     return dataRecords;
 };
 
+// select all for table 1 and 2 by ID
+module.exports.GetNanoparticlesAndBiodistributionTimelinesById = async (options) =>{
+    // options have contents/body of post request
+    let dataRecords = await nanoparticlesAndbloodDataDbAccessor.selectById(options.id, options.rowName);
+    console.log(dataRecords);
+    console.log("-------------");
+    return dataRecords;
+};
+
+// select all for table 1 and 2 by ID
+module.exports.CheckdNanoparticlesAndBiodistributionTimelinesById = async (options) =>{
+    // options have contents/body of post request
+    let tumor_records = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect({nano_tumor_id:`${options.id}`, operation:"intersection"});
+    if(tumor_records.length>0){
+        return {IsNanoparticlePresent: true};
+    }
+    return {IsNanoparticlePresent: false};
+};
+
+// select all for table 1 and 2 by ID
+module.exports.DeleteNanoparticlesAndBiodistributionTimelinesById = async (options) =>{
+    // options have contents/body of post request
+    let rowDetails = await nanoparticlesAndbloodDataDbAccessor.selectById(options.id, options.rowName);
+    let nano_tumor_id = rowDetails.nano_tumor_id;
+    let nano_tumor_timeline = rowDetails.time_point;
+    let count=0;
+    let tumor_records = await nanoparticlesAndbloodDataDbAccessor.filterAndSelect({nano_tumor_id:`${nano_tumor_id}`, operation:"intersection"});
+    if(tumor_records.length==1){
+        count = await nanoparticlesdbAccessor.deleteById(nano_tumor_id, "nano_tumor_id");
+        console.log(`Deleted ${count} rows in nanoparticles table`);
+    }
+    let bio_distibution_record = await biodistributionDbAccessor.filterAndSelect({nano_tumor_id:`${nano_tumor_id}`, time_point: nano_tumor_timeline});
+    count = await biodistributionDbAccessor.deleteById(bio_distibution_record[0].id,'id');
+    console.log(`Deleted ${count} rows in bio_distribution table`);
+};
 
 // filter parameters
 module.exports.GetFilteredParamsOfNanoparticlesAndBiodistributionTimelines = async () =>{

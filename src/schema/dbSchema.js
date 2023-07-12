@@ -21,7 +21,7 @@ const updateUserSchema = userSchema.fork(["auth0_id", "username", "auth0_app_met
 
 const nanoparticlesSchema = Joi.object({
     id: Joi.number(),
-    nano_tumor_id: Joi.string(),
+    nano_tumor_id: Joi.number(),
     particle_type: Joi.string(),
     core_material: Joi.string(),
     targeting_strategy: Joi.string(),
@@ -52,7 +52,7 @@ const updateNanoparticlesSchema = nanoparticlesSchema.fork(["nano_tumor_id", "pa
 
 const biodistributionTimelinesScehma = Joi.object({
     id: Joi.number(),
-    nano_tumor_id: Joi.string(),
+    nano_tumor_id: Joi.number(),
     time_point: Joi.number(),
     tumor: Joi.number(),
     heart: Joi.number(),
@@ -74,8 +74,7 @@ const bloodDataTimlinesSchema = Joi.object({
 const updateBloodDataTimlinesSchema = bloodDataTimlinesSchema.fork(["nano_tumor_id", "time_point", "plasma_id_pc"], (schema) => schema.optional());
 
 const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
-    id: Joi.number(),
-    nano_tumor_id: Joi.string().required(),
+    nano_tumor_id: Joi.number(),
     particle_type: Joi.string(),
     core_material: Joi.string(),
     targeting_strategy: Joi.string(),
@@ -96,7 +95,9 @@ const nanoparticlesAndBiodistributionTimelinesSchema = Joi.object({
         max: Joi.number()
     }),
     animal: Joi.string(),
+    blood_type: Joi.string(),
     reference: Joi.string(),
+    reference_hyperlink: Joi.string(),
     time_point: Joi.number(),
     tumor: Joi.number(),
     heart: Joi.number(),

@@ -18,10 +18,10 @@ class BaseDbAccessor {
    * @param {string} id
    * @returns row;
    */
-  async selectById(id, clientArg) {
+  async selectById(id, rowName, clientArg) {
     try {
       const client = _.isEmpty(clientArg) ? pool : clientArg;
-      const res = await client.query(`SELECT * FROM ${this.tableName} WHERE id=$1`, [id]);
+      const res = await client.query(`SELECT * FROM ${this.tableName} WHERE ${rowName}=$1`, [id]);
       let row = res.rows[0];
       row = _.omitBy(row, _.isNull);
       return row;
@@ -38,9 +38,9 @@ class BaseDbAccessor {
    * @param {string} id
    * @returns 1 if row is deleted, or 0 if row is not found
    */
-  async deleteById(id) {
+  async deleteById(id, rowName) {
     try {
-      const res = await pool.query(`DELETE FROM ${this.tableName} WHERE id=$1`, [id]);
+      const res = await pool.query(`DELETE FROM ${this.tableName} WHERE ${rowName}=$1`, [id]);
       const deleteRowCount = res.rowCount;
       return deleteRowCount;
     } catch (e) {
@@ -119,7 +119,7 @@ class BaseDbAccessor {
       let query = `INSERT INTO ${this.tableName} (${columnNames.join(", ")}) VALUES (${valuesPlaceHolder.join(", ")}) RETURNING *`;
 
       console.log(query);
-      console.log(columnValues)
+      console.log(columnValues);
       console.log("---------------------------------------------")
       let res = await client.query(query, columnValues);
       let row = res.rows[0];

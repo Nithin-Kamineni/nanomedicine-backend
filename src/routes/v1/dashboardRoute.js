@@ -695,6 +695,167 @@ router.post("/nanoparticles&biodistribution", async (req, res) => {
 // (insert) nanoparticles + biodistribution_timelines    check schema
 router.put("/nanoparticles&biodistribution", async (req, res) => {
     try{
+        //checking permision
+        // const authSub = _.get(req, "auth.sub", "|");
+        // let filteringRecords = await userDbAccessordbAccessor.filterAndSelect({"auth0_id":authSub});
+        // let filteringRecord = filteringRecords[0];
+        // if(filteringRecord.role!="admin"){
+        //     res.status(StatusCodes.UNAUTHORIZED).send({
+        //         status: StatusCodes.UNAUTHORIZED,
+        //         error: "Do not have the access or permission to add items",
+        //     });
+        // }
+
+        const result = await dashboardHandler.AddNanoparticlesAndBiodistributionTimelines(req.body);
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution/check/{nano_tumor_id}:
+ *     get:
+ *       summary: Check details into nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       parameters:
+ *         - in: path
+ *           name: nano_tumor_id
+ *           required: true
+ *           description: Replace `routeVariable` with your desired route variable name
+ *           schema:
+ *             type: string
+ *       responses:
+ *         "200":
+ *           description: Adding details of nanoparticles and biodistribution into database based on token permission
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+// (check) nanoparticles + biodistribution_timelines    check schema
+router.get("/nanoparticles&biodistribution/check/:routeVariable", async (req, res) => {
+    try{
+        //checking permision
+        // const authSub = _.get(req, "auth.sub", "|");
+        // let filteringRecords = await userDbAccessordbAccessor.filterAndSelect({"auth0_id":authSub});
+        // let filteringRecord = filteringRecords[0];
+        // if(filteringRecord.role!="admin"){
+        //     res.status(StatusCodes.UNAUTHORIZED).send({
+        //         status: StatusCodes.UNAUTHORIZED,
+        //         error: "Do not have the access or permission to add items",
+        //     });
+        // }
+        const routeVariable = req.params.routeVariable;
+        console.log(routeVariable);
+        const result = await dashboardHandler.CheckdNanoparticlesAndBiodistributionTimelinesById({id:routeVariable, rowName: "nano_tumor_id"});
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution/{row_number}:
+ *     get:
+ *       summary: Get details of a record by row_number(Id) in nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       parameters:
+ *         - in: path
+ *           name: row_number
+ *           required: true
+ *           description: Replace `routeVariable` with your desired route variable name
+ *           schema:
+ *             type: string
+ *       responses:
+ *         "200":
+ *           description: Adding details of nanoparticles and biodistribution into database based on token permission
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+// (Read) nanoparticles + biodistribution_timelines    check schema
+router.get("/nanoparticles&biodistribution/:routeVariable", async (req, res) => {
+    try{
+        //checking permision const authSub = _.get(req, "auth.sub", "|");
+        // const authSub = _.get(req, "auth.sub", "|");
+        // let filteringRecords = await userDbAccessordbAccessor.filterAndSelect({"auth0_id":authSub});
+        // let filteringRecord = filteringRecords[0];
+        // if(filteringRecord.role!="admin"){
+        //     res.status(StatusCodes.UNAUTHORIZED).send({
+        //         status: StatusCodes.UNAUTHORIZED,
+        //         error: "Do not have the access or permission to add items",
+        //     });
+        // }
+        const routeVariable = req.params.routeVariable;
+        console.log(routeVariable);
+        const result = await dashboardHandler.GetNanoparticlesAndBiodistributionTimelinesById({id:routeVariable, rowName: "row_number"});
+        res.status(result.status || StatusCodes.OK).send(result);
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
+
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution:
+ *     patch:
+ *       summary: Update details into nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/nanoparticles_biodistributionTimelinesSchema'
+ *       responses:
+ *         "200":
+ *           description: Adding details of nanoparticles and biodistribution into database based on token permission
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+// (Edit) nanoparticles + biodistribution_timelines    check schema
+router.patch("/nanoparticles&biodistribution", async (req, res) => {
+    try{
         //checking permision const authSub = _.get(req, "auth.sub", "|");
         const authSub = _.get(req, "auth.sub", "|");
         let filteringRecords = await userDbAccessordbAccessor.filterAndSelect({"auth0_id":authSub});
@@ -720,5 +881,59 @@ router.put("/nanoparticles&biodistribution", async (req, res) => {
     }
 });
 
+/** 
+ * @swagger
+ *   /dashboard/nanoparticles&biodistribution/{row_number}:
+ *     delete:
+ *       summary: Delete record of nanoparticles and biodistribution
+ *       tags: [Dashboard]
+ *       parameters:
+ *         - in: path
+ *           name: row_number
+ *           required: true
+ *           description: Replace `routeVariable` with your desired route variable name
+ *           schema:
+ *             type: string
+ *       responses:
+ *         "200":
+ *           description: Adding details of nanoparticles and biodistribution into database based on token permission
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/nanoparticles'
+ *         "400":
+ *           $ref: '#/components/responses/400'
+ *         "401":
+ *           $ref: '#/components/responses/401'
+ */
+
+// (delete) nanoparticles + biodistribution_timelines    check schema
+router.delete("/nanoparticles&biodistribution/:routeVariable", async (req, res) => {
+    try{
+        //checking permision const authSub = _.get(req, "auth.sub", "|");
+        // const authSub = _.get(req, "auth.sub", "|");
+        // let filteringRecords = await userDbAccessordbAccessor.filterAndSelect({"auth0_id":authSub});
+        // let filteringRecord = filteringRecords[0];
+        // if(filteringRecord.role!="admin"){
+        //     res.status(StatusCodes.UNAUTHORIZED).send({
+        //         status: StatusCodes.UNAUTHORIZED,
+        //         error: "Do not have the access or permission to add items",
+        //     });
+        // }
+        const routeVariable = req.params.routeVariable;
+        console.log(routeVariable);
+        await dashboardHandler.DeleteNanoparticlesAndBiodistributionTimelinesById({id:routeVariable, rowName: "row_number"});
+        res.status(StatusCodes.OK).send();
+    }catch (err){
+        console.log(`Cannot give what buckets based on intersections that are avilable. error: ${err}`);
+        if (err instanceof BaseError) {
+            return err.respondWithError(res);
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            error: "Server Error",
+        });
+    }
+});
 
 module.exports = router;
